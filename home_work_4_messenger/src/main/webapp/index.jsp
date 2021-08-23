@@ -6,8 +6,8 @@
 <html lang="ru">
       <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 
         <title>Messenger</title>
       </head>
@@ -25,7 +25,7 @@
             <c:choose>
                 <c:when test="${sessionScope.user == null}">
                     <p><input type="button" onclick="location.href='${pageContext.request.contextPath}/signUp';" value="Зарегистрироваться" /></p>
-                    <p><input type="button" onclick="location.href='${pageContext.request.contextPath}/signIn';" value="Войти" /></p>
+                    <p><input type="submit" onclick="location.href='${pageContext.request.contextPath}/signIn';" value="Войти" /></p>
                 </c:when>
                 <c:otherwise>
                     <p><input type="button" onclick="location.href='${pageContext.request.contextPath}/chats';" value="Просмотреть свои сообщения" /></p>
@@ -34,6 +34,7 @@
                 </c:otherwise>
             </c:choose>
       </body>
+
 
 
  </html>

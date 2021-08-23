@@ -3,10 +3,7 @@ package by.it_academy.jd2.messenger.storage;
 import by.it_academy.jd2.messenger.model.Message;
 import by.it_academy.jd2.messenger.storage.api.IChatStorage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ChatStorage implements IChatStorage {
     /**

@@ -1,4 +1,4 @@
-package by.it_academy.jd2.messenger.controllers.web.servlets;
+package by.it_academy.jd2.messenger.controllers.web.servlets.admin;
 
 import by.it_academy.jd2.messenger.model.Message;
 import by.it_academy.jd2.messenger.model.User;
@@ -18,8 +18,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
 
-@WebServlet(name = "AdminServlet", urlPatterns = "/admin")
-public class AdminServlet extends HttpServlet {
+@WebServlet(name = "AdminServletUser", urlPatterns = "/admin/user")
+public class AdminServletUser extends HttpServlet {
 
     /**
      * Переменная для инициализации сервиса
@@ -30,7 +30,7 @@ public class AdminServlet extends HttpServlet {
     /**
      * Инициализация сервиса
      */
-    public AdminServlet() {
+    public AdminServletUser() {
         this.userService = UserService.getInstance();
         this.messageService = MessageService.getInstance();
     }

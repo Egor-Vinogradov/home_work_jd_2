@@ -1,9 +1,13 @@
 package by.it_academy.jd2.messenger.controllers.web.listeners;
 
+import by.it_academy.jd2.messenger.model.About;
 import by.it_academy.jd2.messenger.model.Message;
 import by.it_academy.jd2.messenger.model.User;
+import by.it_academy.jd2.messenger.storage.AboutStorage;
 import by.it_academy.jd2.messenger.storage.ChatStorage;
 import by.it_academy.jd2.messenger.storage.UserStorage;
+import by.it_academy.jd2.messenger.view.SavingRestoringDataFile;
+import by.it_academy.jd2.messenger.view.api.ISavingRestoringData;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -32,10 +36,30 @@ public class DefaultInit implements ServletContextListener {
         message.setText("Hello, admin");
 
         chatStorage.addMessage(user.getLogin(), message);
+
+        AboutStorage aboutStorage = AboutStorage.getInstance();
+
+        About about = new About();
+        String storage = sce.getServletContext().getInitParameter("storage");
+        String path = sce.getServletContext().getInitParameter("pathFile");
+        about.setStorage(storage);
+        about.setTimeСreation(new Date());
+        about.setPath(path);
+
+        aboutStorage.add(about);
+
+        ISavingRestoringData savingRestoringData = SavingRestoringDataFile.getInstance();
+        if (storage.equals("file")) {
+            savingRestoringData.restoringData();
+        }
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-
+        ISavingRestoringData savingRestoringData = SavingRestoringDataFile.getInstance();
+        String storage = sce.getServletContext().getInitParameter("storage");
+        if (storage.equals("file")) {
+            savingRestoringData.saveData();
+        }
     }
 }

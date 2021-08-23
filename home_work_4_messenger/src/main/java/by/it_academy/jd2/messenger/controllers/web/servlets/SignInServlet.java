@@ -32,6 +32,7 @@ public class SignInServlet extends HttpServlet {
          * При нажатии в index.jsp кнопки вход перенаправляем на страницу авторизации
          */
         req.getRequestDispatcher("/views/signIn.jsp").forward(req, resp);
+
     }
 
     @Override
@@ -56,7 +57,7 @@ public class SignInServlet extends HttpServlet {
         } else {
             if ((user.getLogin()).equals("admin")) {
                 req.getSession().setAttribute("user", user);
-                resp.sendRedirect(req.getContextPath() + "/admin");
+                req.getRequestDispatcher("/views/admin.jsp").forward(req, resp);
             } else {
                 req.getSession().setAttribute("user", user);
                 resp.sendRedirect(req.getContextPath() + "/");

@@ -41,7 +41,8 @@
                         </tr>
                     </tbody>
                 </table>
-                <p><input type="submit" value="Отправить"/><input type="button" onclick="location.href='${pageContext.request.contextPath}/';" value="Возврат" /></p>
+                <p><input type="submit" value="Отправить"/>
+                <input type="button" onclick="location.href='${pageContext.request.contextPath}/';" value="Возврат" /></p>
             </form>
         </body>
 

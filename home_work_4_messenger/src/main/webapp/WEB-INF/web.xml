@@ -21,14 +21,21 @@
 
   <filter-mapping>
     <filter-name>SecurityFilter</filter-name>
-    <url-pattern>*</url-pattern>
+    <url-pattern>/*/</url-pattern>
     <dispatcher>REQUEST</dispatcher>
   </filter-mapping>
   
   <listener>
     <listener-class>by.it_academy.jd2.messenger.controllers.web.listeners.DefaultInit</listener-class>
-    <listener-class>by.it_academy.jd2.messenger.controllers.web.listeners.SavingRestoringData</listener-class>
   </listener>
 
+  <context-param>
+    <param-name>storage</param-name>
+    <param-value>file</param-value>
+  </context-param>
+  <context-param>
+    <param-name>pathFile</param-name>
+    <param-value>c:\\temp\\test.csv</param-value>
+  </context-param>
 
 </web-app>
