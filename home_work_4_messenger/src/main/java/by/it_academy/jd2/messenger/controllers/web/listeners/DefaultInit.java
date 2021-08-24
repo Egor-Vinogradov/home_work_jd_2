@@ -48,18 +48,23 @@ public class DefaultInit implements ServletContextListener {
 
         aboutStorage.add(about);
 
-        ISavingRestoringData savingRestoringData = SavingRestoringDataFile.getInstance();
-        if (storage.equals("file")) {
-            savingRestoringData.restoringData();
-        }
+        saveRest(storage, false);
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        ISavingRestoringData savingRestoringData = SavingRestoringDataFile.getInstance();
         String storage = sce.getServletContext().getInitParameter("storage");
-        if (storage.equals("file")) {
-            savingRestoringData.saveData();
+        saveRest(storage, true);
+    }
+
+    private void saveRest(String value, boolean save) {
+        ISavingRestoringData savingRestoringData = SavingRestoringDataFile.getInstance();
+        if (value.equals("file")) {
+            if (save) {
+                savingRestoringData.saveData();
+            } else {
+                savingRestoringData.restoringData();
+            }
         }
     }
 }
