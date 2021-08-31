@@ -1,35 +1,46 @@
-package by.it_academy.jd2.messenger.view;
+package by.it_academy.jd2.messenger.view.init_service;
 
+import by.it_academy.jd2.messenger.model.About;
 import by.it_academy.jd2.messenger.model.Message;
 import by.it_academy.jd2.messenger.model.User;
 import by.it_academy.jd2.messenger.storage.AboutStorage;
-import by.it_academy.jd2.messenger.storage.ChatStorage;
-import by.it_academy.jd2.messenger.storage.UserStorage;
-import by.it_academy.jd2.messenger.storage.api.IAboutStorage;
+import by.it_academy.jd2.messenger.storage.MemoryChatStorage;
+import by.it_academy.jd2.messenger.storage.MemoryUserStorage;
 import by.it_academy.jd2.messenger.storage.api.IChatStorage;
 import by.it_academy.jd2.messenger.storage.api.IUserStorage;
-import by.it_academy.jd2.messenger.view.api.ISavingRestoringData;
+import by.it_academy.jd2.messenger.view.api.IMessageService;
+import by.it_academy.jd2.messenger.view.api.IStorageService;
+import by.it_academy.jd2.messenger.view.api.IUserService;
+import by.it_academy.jd2.messenger.view.service.MessageService;
+import by.it_academy.jd2.messenger.view.service.UserService;
 
 import java.io.*;
 import java.util.*;
 
-public class SavingRestoringDataFile implements ISavingRestoringData {
+public class SavingRestoringDataFile extends UserService implements IStorageService {
     private static final SavingRestoringDataFile instance = new SavingRestoringDataFile();
 
-    private final IAboutStorage about;
+    private final AboutStorage aboutStorage;
     private final IChatStorage chatStorage;
     private final IUserStorage userStorage;
+    private IMessageService messageService;
+    private IUserService userService;
 
+    private About about;
     private String pathFile;
     private File file;
 
     public SavingRestoringDataFile() {
-        this.about = AboutStorage.getInstance();
-        this.chatStorage = ChatStorage.getInstance();
-        this.userStorage = UserStorage.getInstance();
+        this.aboutStorage = AboutStorage.getInstance();
+        this.chatStorage = MemoryChatStorage.getInstance();
+        this.userStorage = MemoryUserStorage.getInstance();
 
-        this.pathFile = this.about.getAbout().getPath();
-        this.file = new File(pathFile);
+        this.messageService = MessageService.getInstance();
+        this.messageService.setChatStorage(this.chatStorage);
+        this.userService = UserService.getInstance();
+        this.userService.setUserStorage(this.userStorage);
+
+        this.about = aboutStorage.getAbout();
     }
 
     public static SavingRestoringDataFile getInstance() {
@@ -81,7 +92,9 @@ public class SavingRestoringDataFile implements ISavingRestoringData {
     }
 
     @Override
-    public void restoringData() {
+    public void initData() {
+        this.pathFile = this.about.getPath();
+        this.file = new File(pathFile);
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String nextLine = reader.readLine();

@@ -2,7 +2,7 @@ package by.it_academy.jd2.messenger.controllers.web.servlets;
 
 import by.it_academy.jd2.messenger.model.Message;
 import by.it_academy.jd2.messenger.model.User;
-import by.it_academy.jd2.messenger.view.MessageService;
+import by.it_academy.jd2.messenger.view.service.MessageService;
 import by.it_academy.jd2.messenger.view.api.IMessageService;
 
 import javax.servlet.ServletException;

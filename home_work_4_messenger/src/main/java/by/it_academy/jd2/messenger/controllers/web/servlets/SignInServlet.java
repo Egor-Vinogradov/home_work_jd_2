@@ -1,7 +1,7 @@
 package by.it_academy.jd2.messenger.controllers.web.servlets;
 
 import by.it_academy.jd2.messenger.model.User;
-import by.it_academy.jd2.messenger.view.AuthService;
+import by.it_academy.jd2.messenger.view.service.AuthService;
 import by.it_academy.jd2.messenger.view.api.IAuthService;
 
 import javax.servlet.ServletException;

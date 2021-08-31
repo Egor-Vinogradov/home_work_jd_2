@@ -2,8 +2,8 @@ package by.it_academy.jd2.messenger.controllers.web.servlets.admin;
 
 import by.it_academy.jd2.messenger.model.Message;
 import by.it_academy.jd2.messenger.model.User;
-import by.it_academy.jd2.messenger.view.MessageService;
-import by.it_academy.jd2.messenger.view.UserService;
+import by.it_academy.jd2.messenger.view.service.MessageService;
+import by.it_academy.jd2.messenger.view.service.UserService;
 import by.it_academy.jd2.messenger.view.api.IMessageService;
 import by.it_academy.jd2.messenger.view.api.IUserService;
 
@@ -46,7 +46,7 @@ public class AdminServletUser extends HttpServlet {
         Collection<User> users = userService.getAll();
         for (User user : users) {
             writer.println("<p>" + user + "</p>");
-            List<Message> list = this.messageService.get(user);
+            List<Message> list = this.messageService.get(user.getLogin());
             for (Message message : list) {
                 writer.write("<p>" + message + "</p>");
             }

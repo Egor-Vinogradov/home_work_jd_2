@@ -1,4 +1,4 @@
-package by.it_academy.jd2.messenger.view;
+package by.it_academy.jd2.messenger.view.service;
 
 import by.it_academy.jd2.messenger.model.User;
 import by.it_academy.jd2.messenger.view.api.IAuthService;

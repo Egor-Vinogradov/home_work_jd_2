@@ -5,11 +5,11 @@ import by.it_academy.jd2.messenger.storage.api.IChatStorage;
 
 import java.util.*;
 
-public class ChatStorage implements IChatStorage {
+public class MemoryChatStorage implements IChatStorage {
     /**
      * Переменная для синглтона
      */
-    private final static ChatStorage instance = new ChatStorage();
+    private final static MemoryChatStorage instance = new MemoryChatStorage();
 
     /**
      * Коллекция для сохранения чата с пользователем
@@ -50,7 +50,7 @@ public class ChatStorage implements IChatStorage {
      * Метод для создания, либо вызова синглтона
      * @return возвращает экземпляр синглтона
      */
-    public static ChatStorage getInstance() {
+    public static MemoryChatStorage getInstance() {
         return instance;
     }
 }

@@ -2,7 +2,6 @@ package by.it_academy.jd2.messenger.storage.api;
 
 import by.it_academy.jd2.messenger.model.Message;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface IChatStorage {

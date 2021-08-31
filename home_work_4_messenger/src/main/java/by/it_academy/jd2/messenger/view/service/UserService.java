@@ -1,8 +1,8 @@
-package by.it_academy.jd2.messenger.view;
+package by.it_academy.jd2.messenger.view.service;
 
 import by.it_academy.jd2.messenger.model.Message;
 import by.it_academy.jd2.messenger.model.User;
-import by.it_academy.jd2.messenger.storage.UserStorage;
+import by.it_academy.jd2.messenger.storage.MemoryUserStorage;
 import by.it_academy.jd2.messenger.storage.api.IUserStorage;
 import by.it_academy.jd2.messenger.view.api.IMessageService;
 import by.it_academy.jd2.messenger.view.api.IUserService;
@@ -10,7 +10,7 @@ import by.it_academy.jd2.messenger.view.api.IUserService;
 import java.util.Collection;
 import java.util.Date;
 
-public class UserService implements IUserService {
+public class UserService extends MemoryUserStorage implements IUserService {
     /**
      * Переменная для синглтона
      */
@@ -19,15 +19,16 @@ public class UserService implements IUserService {
     /**
      * Переменные для хранилища пользователя и сообщений
      */
-    private final IUserStorage userStorage;
+    private IUserStorage userStorage;
     private final IMessageService messageService;
 
     public UserService() {
-        /**
-         * Инициализируем хранилища при создании экземпляра класса
-         */
-        this.userStorage = UserStorage.getInstance();
         this.messageService = MessageService.getInstance();
+    }
+
+    @Override
+    public void setUserStorage(IUserStorage userStorage) {
+        this.userStorage = userStorage;
     }
 
     /**

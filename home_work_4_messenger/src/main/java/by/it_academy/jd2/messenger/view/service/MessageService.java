@@ -1,14 +1,14 @@
-package by.it_academy.jd2.messenger.view;
+package by.it_academy.jd2.messenger.view.service;
 
 import by.it_academy.jd2.messenger.model.Message;
 import by.it_academy.jd2.messenger.model.User;
-import by.it_academy.jd2.messenger.storage.ChatStorage;
+import by.it_academy.jd2.messenger.storage.DbChatStorage;
 import by.it_academy.jd2.messenger.storage.api.IChatStorage;
 import by.it_academy.jd2.messenger.view.api.IMessageService;
 
 import java.util.List;
 
-public class MessageService implements IMessageService {
+public class MessageService extends DbChatStorage implements IMessageService {
     /**
      * Переменная для синглтона
      */
@@ -17,23 +17,17 @@ public class MessageService implements IMessageService {
     /**
      * Переменная для хранилища сообщений
      */
-    private final IChatStorage chatStorage;
+    private IChatStorage chatStorage;
 
-    /**
-     * При инициализации сервиса вызываем хранилище
-     */
-    private MessageService() {
-        this.chatStorage = ChatStorage.getInstance();
+    @Override
+    public void setChatStorage(IChatStorage chatStorage) {
+        this.chatStorage = chatStorage;
     }
 
-    /**
-     * Метод получает переписку определенного юзера
-     * @param user юзер
-     * @return коллекция с перепиской
-     */
+
     @Override
-    public List<Message> get(User user) {
-        return this.chatStorage.get(user.getLogin());
+    public List<Message> get(String login) {
+        return this.chatStorage.get(login);
     }
 
     /**

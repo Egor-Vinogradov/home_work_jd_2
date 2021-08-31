@@ -7,11 +7,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserStorage implements IUserStorage {
+public class MemoryUserStorage implements IUserStorage {
     /**
      * Переменная для синглтона
      */
-    private static final UserStorage instance = new UserStorage();
+    private static final MemoryUserStorage instance = new MemoryUserStorage();
 
     /**
      * Переменная для хранения коллекции юзеров. Ключ - логин
@@ -50,7 +50,7 @@ public class UserStorage implements IUserStorage {
      * Метод для создания, либо вызова синглтона
      * @return возвращает экземпляр синглтона
      */
-    public static UserStorage getInstance() {
+    public static MemoryUserStorage getInstance() {
         return instance;
     }
 }
