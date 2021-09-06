@@ -4,7 +4,7 @@ import by.it_academy.jd2.messenger.view.init_service.SavingRestoringDB;
 import by.it_academy.jd2.messenger.view.init_service.SavingRestoringDataFile;
 import by.it_academy.jd2.messenger.view.api.IStorageService;
 
-public class StorageFactory extends SavingRestoringDataFile {
+public class StorageFactory {
     private static final StorageFactory instance = new StorageFactory();
     private StorageType type;
 

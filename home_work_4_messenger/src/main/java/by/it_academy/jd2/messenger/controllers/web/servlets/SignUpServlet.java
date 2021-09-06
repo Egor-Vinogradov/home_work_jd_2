@@ -65,7 +65,13 @@ public class SignUpServlet extends HttpServlet {
         user.setLogin(login);
         user.setPassword(pass);
         user.setFio(fio);
-        user.setBirthday(chosenDate);
+
+        if (chosenDate != null) {
+            user.setBirthday(chosenDate);
+        } else {
+            user.setBirthday(new Date());
+        }
+
         user.setRegistration(new Date());
 
         /**
