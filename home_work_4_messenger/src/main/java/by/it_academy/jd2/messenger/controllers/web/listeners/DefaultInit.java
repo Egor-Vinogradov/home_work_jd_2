@@ -20,17 +20,17 @@ public class DefaultInit extends SavingRestoringDataFile implements ServletConte
     @Override
     public void contextInitialized(ServletContextEvent sce) {
 
-//        User user = new User();
-//        user.setLogin("admin");
-//        user.setPassword("admin");
-//        user.setFio("admin");
-//        user.setBirthday(new Date());
-//        user.setRegistration(user.getBirthday());
-//
-//        Message message = new Message();
-//        message.setFrom("unknown");
-//        message.setSendDate(new Date());
-//        message.setText("Hello, admin");
+        User user = new User();
+        user.setLogin("admin");
+        user.setPassword("admin");
+        user.setFio("admin");
+        user.setBirthday(new Date());
+        user.setRegistration(user.getBirthday());
+
+        Message message = new Message();
+        message.setFrom(user.getLogin());
+        message.setSendDate(new Date());
+        message.setText("Hello, admin");
 
         AboutStorage aboutStorage = AboutStorage.getInstance();
 
@@ -48,10 +48,10 @@ public class DefaultInit extends SavingRestoringDataFile implements ServletConte
         IStorageService service = factory.typeStorageInstance();
         service.initData();
 
-//        IUserService userService = UserService.getInstance();
-//        userService.signUp(user);
-//        IMessageService messageService = MessageService.getInstance();
-//        messageService.addMessage(user.getLogin(), message);
+        IUserService userService = UserService.getInstance();
+        userService.signUp(user);
+        IMessageService messageService = MessageService.getInstance();
+        messageService.addMessage(user.getLogin(), message);
     }
 
     @Override

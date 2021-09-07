@@ -34,36 +34,15 @@ public class DbChatStorage implements IChatStorage {
                 "    on ms.sender = us.id\n" +
                 "where ms.recepient = ?";
 
-        String sqlTextNumber = "\n" +
-                "\n" +
-                "        String sqlTextNumber = \"select id\\n\" +\n" +
-                "                \"from application.users\\n\" +\n" +
-                "                \"where login = ?\";\n";
-
-        Long number = null;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlTextNumber)) {
-            preparedStatement.setString(1, login);
-
-            ResultSet rs = preparedStatement.executeQuery();
-
-            while (rs.next()) {
-                number = rs.getLong(1);
-            }
-
-            rs.close();
-        } catch (Exception e) {
-            throw new IllegalStateException("Ошибка работы с БД", e);
-        }
-
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlText)) {
-            preparedStatement.setString(1, String.valueOf(number));
+            preparedStatement.setLong(1, getUserNumber(login));
 
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
                 Message message = new Message();
 
-                message.setFrom(String.valueOf(rs.getLong(1)));
+                message.setFrom(rs.getString(1));
                 message.setText(rs.getString(2));
                 message.setSendDate(rs.getDate(3));
 
@@ -81,6 +60,7 @@ public class DbChatStorage implements IChatStorage {
 
     @Override
     public void addMessage(String login, Message message) {
+
         Connection connection = this.initializer.getConnection();
         String sqlText = "INSERT INTO application.messages(\n" +
                 "\trecepient, sender, message, registration)\n" +
@@ -93,8 +73,8 @@ public class DbChatStorage implements IChatStorage {
         java.sql.Date registration = new java.sql.Date(registrationDate.getTime());
 
         try (PreparedStatement ps = connection.prepareStatement(sqlText)) {
-            ps.setString(1, login);
-            ps.setString(2, sender);
+            ps.setLong(1, getUserNumber(login));
+            ps.setLong(2, getUserNumber(sender));
             ps.setString(3, text);
             ps.setDate(4, registration);
 
@@ -106,7 +86,54 @@ public class DbChatStorage implements IChatStorage {
 
     }
 
-    /**
-     * Добавить метод для получения пользователя по бигинту!!!!
-     */
+    private Long getUserNumber(String login) {
+        Long number = null;
+        Connection connection = this.initializer.getConnection();
+        String sqlText = "SELECT id\n" +
+                "\tFROM application.users\n" +
+                "\tWHERE login = ?;";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlText)) {
+            preparedStatement.setString(1, login);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                number = rs.getLong(1);
+            }
+
+            rs.close();
+
+        } catch (Exception e) {
+            throw new IllegalStateException("Ошибка работы с БД", e);
+        }
+
+        return number;
+    }
+
+    private String getNumberUser(Long number) {
+        String userName = "";
+
+        Connection connection = this.initializer.getConnection();
+        String sqlText = "SELECT login\n" +
+                "\tFROM application.users\n" +
+                "\tWHERE id = ?;";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlText)) {
+            preparedStatement.setLong(1, number);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                userName = rs.getString(1);
+            }
+
+            rs.close();
+
+        } catch (Exception e) {
+            throw new IllegalStateException("Ошибка работы с БД", e);
+        }
+
+        return userName;
+    }
 }
