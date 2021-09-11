@@ -4,4 +4,7 @@ import by.it_academy.jd2.crm.model.Employer;
 
 public interface IEmployersService {
     void add(Employer employer);
+    void deleteAll();
+    void generateEmployers(int number);
+    int getCountEmployers();
 }

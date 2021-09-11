@@ -2,7 +2,6 @@ package by.it_academy.jd2.messenger.view;
 
 import by.it_academy.jd2.messenger.model.ConfigDB;
 import by.it_academy.jd2.messenger.storage.ConfigDBStorage;
-import by.it_academy.jd2.messenger.view.init_service.SavingRestoringDB;
 
 import java.sql.*;
 
