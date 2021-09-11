@@ -1,6 +1,7 @@
 package by.it_academy.jd2.crm.controllers;
 
-import by.it_academy.jd2.crm.model.Department;
+import by.it_academy.jd2.crm.model.Employer;
+import by.it_academy.jd2.crm.model.Position;
 import by.it_academy.jd2.crm.service.EmployersService;
 import by.it_academy.jd2.crm.service.PositionDepartmentService;
 import by.it_academy.jd2.crm.service.api.IEmployersService;
@@ -12,28 +13,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 
-@WebServlet(name = "GenerateServlet", urlPatterns = "/generate")
-public class GenerateServlet extends HttpServlet {
+@WebServlet(name = "EmployerServlet", urlPatterns = "/employer")
+public class EmployerServlet extends HttpServlet {
 
     private IEmployersService service = EmployersService.getInstance();
-    private IPositionDepartmentService servicePD = PositionDepartmentService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<Employer> list = this.service.getAllEmployers();
 
-    }
+        req.setAttribute("employers", list);
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        if (req.getParameter("generate") != null) {
-            this.service.generateEmployers(50);
-        } else if (req.getParameter("clean") != null) {
-            this.service.deleteAll();
-        }
-
-        req.getRequestDispatcher("index.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/employers.jsp").forward(req, resp);
     }
 }

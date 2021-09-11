@@ -1,5 +1,7 @@
 <%@ page import="by.it_academy.jd2.crm.service.api.IEmployersService" %>
 <%@ page import="by.it_academy.jd2.crm.service.EmployersService" %>
+<%@ page import="by.it_academy.jd2.crm.service.api.IPositionDepartmentService" %>
+<%@ page import="by.it_academy.jd2.crm.service.PositionDepartmentService" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -25,17 +27,33 @@
                 count = service.getCountEmployers();
                 return count;
             }
+
+            public int getCountPosition() {
+                int count;
+                IPositionDepartmentService service = PositionDepartmentService.getInstance();
+                count = service.getCount("position");
+                return count;
+            }
+
+            public int getCountDepartment() {
+                int count;
+                IPositionDepartmentService service = PositionDepartmentService.getInstance();
+                count = service.getCount("department");
+                return count;
+            }
         %>
         <td><%=getCountEmployers()%></td>
-        <td>Сотрудников</td>
+        <td><a href="${pageContext.request.contextPath}/employer">Сотрудников</a></td>
     </tr>
     <tr>
-        <td>10</td>
-        <td>Должностей</td>
+        <td><%=getCountPosition()%></td>
+        <td><a href="${pageContext.request.contextPath}/position">Должностей</a></td>
     </tr>
     <tr>
-        <td>5</td>
-        <td>Отделов</td>
+
+        <td><%=getCountDepartment()%></td>
+        <td><a href="${pageContext.request.contextPath}/department">Отделов</a></td>
+
     </tr>
 </table>
 <form action="${pageContext.request.contextPath}/generate" method="post">

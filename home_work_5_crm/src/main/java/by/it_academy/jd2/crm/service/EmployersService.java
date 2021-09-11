@@ -1,16 +1,15 @@
 package by.it_academy.jd2.crm.service;
 
-import by.it_academy.jd2.crm.controllers.DBInitializer;
+import by.it_academy.jd2.crm.model.Department;
 import by.it_academy.jd2.crm.model.Employer;
 import by.it_academy.jd2.crm.service.api.IEmployersService;
+import by.it_academy.jd2.crm.service.api.IPositionDepartmentService;
 import by.it_academy.jd2.crm.storage.EmployerStorage;
 import by.it_academy.jd2.crm.storage.api.IEmployerStorage;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -86,5 +85,10 @@ public class EmployersService implements IEmployersService {
     @Override
     public int getCountEmployers() {
         return this.storage.getCountEmployers();
+    }
+
+    @Override
+    public List<Employer> getAllEmployers() {
+        return this.storage.getAllEmployers();
     }
 }

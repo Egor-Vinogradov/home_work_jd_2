@@ -1,17 +1,18 @@
 package by.it_academy.jd2.crm.storage;
 
-import by.it_academy.jd2.crm.controllers.DBInitializer;
+import by.it_academy.jd2.crm.service.DBInitializer;
 import by.it_academy.jd2.crm.model.Employer;
 import by.it_academy.jd2.crm.storage.api.IEmployerStorage;
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class EmployerStorage implements IEmployerStorage {
     private static EmployerStorage instance;
+    private final Connection connection = DBInitializer.getInstance().getConnection();
 
     public static EmployerStorage getInstance() {
         if (instance == null) {
@@ -21,8 +22,6 @@ public class EmployerStorage implements IEmployerStorage {
         }
         return instance;
     }
-
-    private final Connection connection = DBInitializer.getInstance().getConnection();
 
     @Override
     public void addEmployer(Employer employer) {
@@ -85,5 +84,49 @@ public class EmployerStorage implements IEmployerStorage {
         }
 
         return count;
+    }
+
+    @Override
+    public List<Employer> getAllEmployers() {
+        List<Employer> list = new ArrayList<>();
+
+        String sqlText = "SELECT em.id, em.name, em.salary, pos.name, dep.name\n" +
+                "FROM application.employers as em left join application.positions as pos\n" +
+                "on em.position = pos.id\n" +
+                "left join application.departments as dep\n" +
+                "on em.department = dep.id;";
+
+        try (PreparedStatement statement = connection.prepareStatement(sqlText)) {
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                long id = rs.getLong(1);
+                String name = rs.getString(2);
+                double salary = rs.getDouble(3);
+                String namePosition = rs.getString(4);
+                String nameDepartment = rs.getString(5);
+
+                Employer employer = new Employer();
+                employer.setId(id);
+                employer.setName(name);
+                employer.setSalary(salary);
+                employer.setPositionName(namePosition);
+                employer.setDepartmentName(nameDepartment);
+
+                list.add(employer);
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalStateException("Ошибка работы с БД", e);
+        }
+
+        Collections.sort(list, new Comparator<Employer>() {
+            @Override
+            public int compare(Employer o1, Employer o2) {
+                return (int) (o1.getId() - o2.getId());
+            }
+        });
+
+        return list;
     }
 }

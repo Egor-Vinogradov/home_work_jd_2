@@ -1,10 +1,9 @@
-package by.it_academy.jd2.crm.controllers;
+package by.it_academy.jd2.crm.service;
 
 import by.it_academy.jd2.crm.model.ConfigDB;
 import by.it_academy.jd2.crm.storage.ConfigDBStorage;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.sql.*;
 

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "StartServlet", urlPatterns = "/")
+@WebServlet(name = "StartServlet", urlPatterns = "/start")
 public class StartServlet extends HttpServlet {
 
 
@@ -32,5 +32,9 @@ public class StartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("countEmployers", this.service.getCountEmployers());
         req.getRequestDispatcher("index.jsp").forward(req, resp);
+
+//        Employer employer = mapper.readValue(req.getInputStream(), Employer.class);
+//
+//        System.out.println(employer);
     }
 }
