@@ -27,9 +27,9 @@
     <tbody>
         <c:forEach var="department" items="${departments}">
             <tr>
-                <td>${department.getId()}</td>
-                <td>${department.getName()}</td>
-                <td>${department.getParentName()}</td>
+                <td><a href="${pageContext.request.contextPath}/departmentcard?id=${department.getId()}">${department.getId()}</a></td>
+                <td><a href="${pageContext.request.contextPath}/departmentcard?id=${department.getId()}">${department.getName()}</a></td>
+                <td><a href="${pageContext.request.contextPath}/departmentcard?id=${department.getId()}">${department.getParentName()}</a></td>
             </tr>
         </c:forEach>
     </tbody>

@@ -29,8 +29,8 @@
     <tbody>
         <c:forEach var="employer" items="${employers}">
             <tr>
-                <td>${employer.getId()}</td>
-                <td>${employer.getName()}</td>
+                <td><a href="${pageContext.request.contextPath}/employercard?id=${employer.getId()}">${employer.getId()}</a></td>
+                <td><a href="${pageContext.request.contextPath}/employercard?id=${employer.getId()}">${employer.getName()}</a></td>
                 <td><fmt:formatNumber type="number" maxIntegerDigits="15" value="${employer.getSalary()}" /></td>
                 <td>${employer.getPositionName()}</td>
                 <td>${employer.getDepartmentName()}</td>

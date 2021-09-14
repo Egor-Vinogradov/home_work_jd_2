@@ -9,4 +9,5 @@ public interface IEmployerStorage {
     void deleteAll();
     int getCountEmployers();
     List<Employer> getAllEmployers();
+    Employer getEmployer(long id);
 }

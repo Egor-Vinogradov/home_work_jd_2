@@ -10,4 +10,6 @@ public interface IPositionDepartmentStorage {
     List<Department> getAllDepartments();
     String getNameDepartment(long id);
     List<Position> getAllPositions();
+    Position getPosition(long id);
+    Department getDepartment(long id);
 }

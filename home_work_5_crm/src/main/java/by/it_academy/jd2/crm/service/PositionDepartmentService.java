@@ -41,4 +41,14 @@ public class PositionDepartmentService implements IPositionDepartmentService {
     public List<Position> getAllPositions() {
         return this.storage.getAllPositions();
     }
+
+    @Override
+    public Position getPosition(long id) {
+        return this.storage.getPosition(id);
+    }
+
+    @Override
+    public Department getDepartment(long id) {
+        return this.storage.getDepartment(id);
+    }
 }

@@ -137,4 +137,51 @@ public class PositionDepartmentStorage implements IPositionDepartmentStorage {
 
         return list;
     }
+
+    @Override
+    public Position getPosition(long id) {
+        Position position = new Position();
+        String sqlText = "select * from application.positions where id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sqlText)) {
+
+            statement.setLong(1, id);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                position.setId(rs.getLong("id"));
+                position.setName(rs.getString("name"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return position;
+    }
+
+    @Override
+    public Department getDepartment(long id) {
+        Department department = new Department();
+        String sqlText = "select * from application.departments where id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sqlText)) {
+
+            statement.setLong(1, id);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                department.setId(rs.getLong("id"));
+                department.setName(rs.getString("name"));
+                department.setParentName(getNameDepartment(rs.getLong("parent")));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return department;
+    }
 }

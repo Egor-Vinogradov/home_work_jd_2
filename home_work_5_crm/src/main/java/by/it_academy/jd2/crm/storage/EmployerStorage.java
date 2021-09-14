@@ -129,4 +129,35 @@ public class EmployerStorage implements IEmployerStorage {
 
         return list;
     }
+
+    @Override
+    public Employer getEmployer(long id) {
+        Employer employer = new Employer();
+
+        String sqlText = "SELECT em.id, em.name, em.salary, pos.name as position, dep.name as department\n" +
+                "FROM application.employers as em left join application.positions as pos\n" +
+                "on em.position = pos.id\n" +
+                "left join application.departments as dep\n" +
+                "on em.department = dep.id\n" +
+                "WHERE em.id = ?;";
+
+        try (PreparedStatement statement = connection.prepareStatement(sqlText)) {
+            statement.setLong(1, id);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                employer.setId(rs.getLong("id"));
+                employer.setName(rs.getString("name"));
+                employer.setSalary(rs.getDouble("salary"));
+                employer.setPositionName(rs.getString("position"));
+                employer.setDepartmentName(rs.getString("department"));
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalStateException("Ошибка работы с БД", e);
+        }
+
+        return employer;
+    }
 }

@@ -10,11 +10,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 
-    <title>CRM JD2 Список должностей</title>
+    <title>CRM JD2 Карточка должностей</title>
 </head>
 <body>
 <h1>CRM JD2</h1>
-<h2>Должности:</h2>
+<h2>Карточка должности</h2>
 <table class="table table-hover">
     <thead>
     <tr>
@@ -23,14 +23,12 @@
     </tr>
     </thead>
     <tbody>
-        <c:forEach var="position" items="${positions}">
-            <tr>
-                <td><a href="${pageContext.request.contextPath}/positioncard?id=${position.getId()}">${position.getId()}</a></td>
-                <td><a href="${pageContext.request.contextPath}/positioncard?id=${position.getId()}">${position.getName()}</a></td>
-            </tr>
-        </c:forEach>
+        <tr>
+            <td>${position.getId()}</td>
+            <td>${position.getName()}</td>
+        </tr>
     </tbody>
 </table>
-    <input type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/';" value="Назад" /></p>
+<input type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/position';" value="Назад" /></p>
 </body>
 </html>

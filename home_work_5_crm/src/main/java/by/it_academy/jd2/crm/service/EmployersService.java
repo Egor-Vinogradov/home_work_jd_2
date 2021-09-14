@@ -91,4 +91,9 @@ public class EmployersService implements IEmployersService {
     public List<Employer> getAllEmployers() {
         return this.storage.getAllEmployers();
     }
+
+    @Override
+    public Employer getEmployer(long id) {
+        return this.storage.getEmployer(id);
+    }
 }
