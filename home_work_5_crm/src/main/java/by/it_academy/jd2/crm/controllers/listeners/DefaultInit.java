@@ -19,7 +19,7 @@ public class DefaultInit implements ServletContextListener {
 //        String PASSWORD = "egor";
         String PASSWORD = "e1abed05c015c0717a5a0f820c745d92659369b674568c62a6832d143255fd75";
 //        String URL = "jdbc:postgresql://localhost:5432/crm";
-        String URL = "jdbc:postgresql://ec2-54-155-208-5.eu-west-1.compute.amazonaws.com:5432/dao7dopotpjcc1";
+        String URL = "jdbc:postgresql://ec2-54-155-208-5.eu-west-1.compute.amazonaws.com:5432/dao7dopotpjcc1?sslmode=require";
 
         ConfigDB configDB = new ConfigDB();
         configDB.setDriver(DRIVER);
