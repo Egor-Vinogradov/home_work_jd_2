@@ -43,7 +43,7 @@
             }
         %>
         <td><%=getCountEmployers()%></td>
-        <td><a href="${pageContext.request.contextPath}/employer">Сотрудников</a></td>
+        <td><a href="${pageContext.request.contextPath}/employerslimit">Сотрудников</a></td>
     </tr>
     <tr>
         <td><%=getCountPosition()%></td>

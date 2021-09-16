@@ -160,4 +160,46 @@ public class EmployerStorage implements IEmployerStorage {
 
         return employer;
     }
+
+    @Override
+    public List<Employer> getEmployersOffLimit(int offset, int limit) {
+        List<Employer> list = new ArrayList<>();
+
+        String sqlText = "SELECT em.id, em.name, em.salary, pos.name, dep.name\n" +
+                "FROM application.employers as em left join application.positions as pos\n" +
+                "on em.position = pos.id\n" +
+                "left join application.departments as dep\n" +
+                "on em.department = dep.id\n" +
+                "offset ?\n" +
+                "limit ?;";
+
+        try (PreparedStatement statement = connection.prepareStatement(sqlText)) {
+            statement.setInt(1, offset);
+            statement.setInt(2, limit);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                long id = rs.getLong(1);
+                String name = rs.getString(2);
+                double salary = rs.getDouble(3);
+                String namePosition = rs.getString(4);
+                String nameDepartment = rs.getString(5);
+
+                Employer employer = new Employer();
+                employer.setId(id);
+                employer.setName(name);
+                employer.setSalary(salary);
+                employer.setPositionName(namePosition);
+                employer.setDepartmentName(nameDepartment);
+
+                list.add(employer);
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalStateException("Ошибка работы с БД", e);
+        }
+
+        return list;
+    }
 }

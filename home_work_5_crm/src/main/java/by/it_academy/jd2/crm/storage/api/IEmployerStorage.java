@@ -10,4 +10,5 @@ public interface IEmployerStorage {
     int getCountEmployers();
     List<Employer> getAllEmployers();
     Employer getEmployer(long id);
+    List<Employer> getEmployersOffLimit(int offset, int limit);
 }

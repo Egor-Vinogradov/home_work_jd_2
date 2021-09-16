@@ -32,7 +32,7 @@
     </tr>
     <tr>
         <td>Зарплата</td>
-        <td>${employer.getSalary()}</td>
+        <td><fmt:formatNumber type="number" maxIntegerDigits="15" value="${employer.getSalary()}" /></td>
     </tr>
     <tr>
         <td>Должность</td>
@@ -44,6 +44,6 @@
     </tr>
     </tbody>
 </table>
-<input type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/employer';" value="Назад" /></p>
+<input type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/employerslimit';" value="Назад" /></p>
 </body>
 </html>

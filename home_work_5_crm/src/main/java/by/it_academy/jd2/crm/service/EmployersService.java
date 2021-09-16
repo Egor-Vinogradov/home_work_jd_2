@@ -96,4 +96,9 @@ public class EmployersService implements IEmployersService {
     public Employer getEmployer(long id) {
         return this.storage.getEmployer(id);
     }
+
+    @Override
+    public List<Employer> getEmployersOffLimit(int offset, int limit) {
+        return this.storage.getEmployersOffLimit(offset, limit);
+    }
 }
