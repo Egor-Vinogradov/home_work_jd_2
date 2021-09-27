@@ -1,9 +1,22 @@
 package by.it_academy.jd2.crm.model;
 
-public class Employer {
+import org.hibernate.annotations.Generated;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Entity
+@Table(name = "employers", schema = "application")
+public class Employer implements Serializable {
+
+    @Id
+    @GeneratedValue
     private long id;
+
+    @Column(name = "name")
     private String name;
+
+
     private Double salary;
     private long position;
     private long department;

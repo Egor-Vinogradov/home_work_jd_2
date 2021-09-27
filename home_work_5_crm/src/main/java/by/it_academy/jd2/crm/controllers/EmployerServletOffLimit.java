@@ -26,15 +26,9 @@ public class EmployerServletOffLimit extends HttpServlet {
             offset = Integer.parseInt(offsetStr);
         }
 
-        String numberButtonStr = req.getParameter("nb");
-        int numberButton = 1;
-        if (numberButtonStr != null) {
-            numberButton = Integer.parseInt(numberButtonStr);
-        }
-
         int firstButton = 1;
-        if (numberButton > 3) {
-            firstButton = numberButton - 2;
+        if (offset > 3) {
+            firstButton = offset - 2;
         }
 
         int generalListSize = this.service.getCountEmployers();
@@ -45,7 +39,22 @@ public class EmployerServletOffLimit extends HttpServlet {
             endButton = numberPages;
         }
 
-        offset = (numberButton - 1) * limit;
+        String position = req.getParameter("position");
+        if (position != null) {
+            switch (position) {
+                case "first":
+                    firstButton = 1;
+                    endButton = firstButton + 4;
+                    break;
+                case "last":
+                    firstButton = generalListSize / limit - 2;
+                    offset = generalListSize / limit;
+                    endButton = generalListSize / limit;
+                    break;
+            }
+        }
+
+        offset = (offset - 1) * limit;
 
         List<Employer> list = this.service.getEmployersOffLimit(offset, limit);
 

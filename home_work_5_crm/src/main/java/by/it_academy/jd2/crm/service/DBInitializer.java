@@ -46,5 +46,13 @@ public class DBInitializer {
         return instance;
     }
 
+    public static void shutdown() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new IllegalStateException("Ошибка работы с БД", e);
+        }
+    }
+
 }
 

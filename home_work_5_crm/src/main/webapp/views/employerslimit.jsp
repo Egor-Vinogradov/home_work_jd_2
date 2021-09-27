@@ -40,9 +40,13 @@
         </c:forEach>
     </tbody>
 </table>
+    <a class="btn btn-primary" href="${pageContext.request.contextPath}/employerslimit?position=first" role="button"><<</a>
+    &nbsp
     <c:forEach var="i" begin="${requestScope.firstButton}" end="${requestScope.endButton}">
-        <a class="btn btn-primary" href="${pageContext.request.contextPath}/employerslimit?nb=${i}&offset=${i}" role="button">${i}</a>
+        <a class="btn btn-primary" href="${pageContext.request.contextPath}/employerslimit?offset=${i}" role="button">${i}</a>
     </c:forEach>
+    &nbsp
+    <a class="btn btn-primary" href="${pageContext.request.contextPath}/employerslimit?position=last" role="button">>></a>
 <br/>
 <br/>
     <input type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/';" value="Назад" /></p>
