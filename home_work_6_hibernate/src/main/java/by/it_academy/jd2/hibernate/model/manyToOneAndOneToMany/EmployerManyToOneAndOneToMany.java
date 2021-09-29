@@ -12,8 +12,7 @@ public class EmployerManyToOneAndOneToMany implements Serializable {
     private long id;
     private String name;
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn (name = "department")
+    @ManyToOne
     private DepartmentManyToOneAndOneToMany department;
 
     public EmployerManyToOneAndOneToMany() {

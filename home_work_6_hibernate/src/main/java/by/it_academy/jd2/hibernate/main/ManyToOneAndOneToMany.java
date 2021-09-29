@@ -4,7 +4,6 @@ import by.it_academy.jd2.hibernate.model.manyToOneAndOneToMany.DepartmentManyToO
 import by.it_academy.jd2.hibernate.model.manyToOneAndOneToMany.EmployerManyToOneAndOneToMany;
 import by.it_academy.jd2.hibernate.service.HibernateUtilManyToOneAndOneToMany;
 import org.hibernate.Session;
-
 import java.util.List;
 
 public class ManyToOneAndOneToMany {
@@ -12,8 +11,8 @@ public class ManyToOneAndOneToMany {
     public static void main(String[] args) {
         Session session = HibernateUtilManyToOneAndOneToMany.getSessionFactory().openSession();
 
-//        createDepartments(session);
-//        createEmployers(session);
+        createDepartments(session);
+        createEmployers(session);
 
         printEmployers(session, 2);
 
@@ -45,7 +44,7 @@ public class ManyToOneAndOneToMany {
 
         EmployerManyToOneAndOneToMany employer1 = new EmployerManyToOneAndOneToMany();
         employer1.setName("Two Employer");
-        employer1.setDepartment(session.get(DepartmentManyToOneAndOneToMany.class, 2l));
+        employer1.setDepartment(session.get(DepartmentManyToOneAndOneToMany.class,2l));
 
         EmployerManyToOneAndOneToMany employer2 = new EmployerManyToOneAndOneToMany();
         employer2.setName("Three Employer");
@@ -63,7 +62,7 @@ public class ManyToOneAndOneToMany {
 
         DepartmentManyToOneAndOneToMany department = session.get(DepartmentManyToOneAndOneToMany.class, id);
 
-        EmployerManyToOneAndOneToMany empl = session.get(EmployerManyToOneAndOneToMany.class, id);
+        System.out.println(session.contains(department));
 
         List<EmployerManyToOneAndOneToMany> list = department.getEmployer();
 

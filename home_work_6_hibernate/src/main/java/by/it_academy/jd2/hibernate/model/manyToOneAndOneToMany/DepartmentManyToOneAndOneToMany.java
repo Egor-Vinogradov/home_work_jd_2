@@ -2,7 +2,6 @@ package by.it_academy.jd2.hibernate.model.manyToOneAndOneToMany;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

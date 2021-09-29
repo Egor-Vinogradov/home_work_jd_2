@@ -1,11 +1,15 @@
 package by.it_academy.jd2.crm.service;
 
 import by.it_academy.jd2.crm.model.Department;
+import by.it_academy.jd2.crm.model.DepartmentsHibernate;
 import by.it_academy.jd2.crm.model.Employer;
+import by.it_academy.jd2.crm.model.EmployersHibernate;
 import by.it_academy.jd2.crm.service.api.IEmployersService;
 import by.it_academy.jd2.crm.service.api.IPositionDepartmentService;
+import by.it_academy.jd2.crm.storage.EmployerHibStorage;
 import by.it_academy.jd2.crm.storage.EmployerStorage;
 import by.it_academy.jd2.crm.storage.api.IEmployerStorage;
+import org.hibernate.Session;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,7 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class EmployersService implements IEmployersService {
     private static EmployersService instance;
 
-    private final IEmployerStorage storage = EmployerStorage.getInstance();
+    private final IEmployerStorage storage = EmployerHibStorage.getInstance();
 
     public static EmployersService getInstance() {
         if (instance == null) {
@@ -100,5 +104,27 @@ public class EmployersService implements IEmployersService {
     @Override
     public List<Employer> getEmployersOffLimit(int offset, int limit) {
         return this.storage.getEmployersOffLimit(offset, limit);
+    }
+
+    public static void main(String[] args) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        DepartmentsHibernate dep = new DepartmentsHibernate();
+        session.save(dep);
+        session.getTransaction().commit();
+
+        session.beginTransaction();
+
+        EmployersHibernate empl = new EmployersHibernate();
+        empl.setName("123");
+        empl.setSalary(123.2);
+        empl.setDepartmentsHibernate(dep);
+
+        session.save(empl);
+        session.getTransaction().commit();
+
+        HibernateUtil.shutdown();
+
     }
 }

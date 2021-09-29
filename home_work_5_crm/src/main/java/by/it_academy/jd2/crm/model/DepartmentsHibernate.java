@@ -2,20 +2,18 @@ package by.it_academy.jd2.crm.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
-@Table(name = "departments", schema = "application")
+@Table(name = "departments", schema = "application_hib")
 public class DepartmentsHibernate implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
     private String name;
 
-    @OneToMany
-    @JoinColumn(name = "department")
-    private List<EmployersHibernate> employers;
+    @ManyToOne
+    private DepartmentsHibernate parent;
 
     public DepartmentsHibernate() {
     }
@@ -36,19 +34,11 @@ public class DepartmentsHibernate implements Serializable {
         this.name = name;
     }
 
-    public List<EmployersHibernate> getEmployers() {
-        return employers;
+    public DepartmentsHibernate getParent() {
+        return parent;
     }
 
-    public void setEmployers(List<EmployersHibernate> employers) {
-        this.employers = employers;
-    }
-
-    @Override
-    public String toString() {
-        return "DepartmentsHibernate{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public void setParent(DepartmentsHibernate parent) {
+        this.parent = parent;
     }
 }
