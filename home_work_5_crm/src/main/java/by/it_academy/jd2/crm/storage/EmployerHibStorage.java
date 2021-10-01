@@ -1,16 +1,25 @@
 package by.it_academy.jd2.crm.storage;
 
 import by.it_academy.jd2.crm.model.Employer;
-import by.it_academy.jd2.crm.model.EmployersHibernate;
-import by.it_academy.jd2.crm.service.HibernateUtil;
+import by.it_academy.jd2.crm.model.hibernate.DepartmentsHibernate;
+import by.it_academy.jd2.crm.model.hibernate.EmployersHibernate;
+import by.it_academy.jd2.crm.model.hibernate.PositionHibernate;
+import by.it_academy.jd2.crm.service.hibernate.HibernateUtil;
 import by.it_academy.jd2.crm.storage.api.IEmployerStorage;
+import by.it_academy.jd2.crm.storage.api.ISearchStorage;
 import org.hibernate.Session;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
-public class EmployerHibStorage implements IEmployerStorage {
+public class EmployerHibStorage implements IEmployerStorage, ISearchStorage {
     private static EmployerHibStorage instance;
     private Session session = HibernateUtil.getSessionFactory().openSession();
+    private CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
 
     public static EmployerHibStorage getInstance() {
         if (instance == null) {
@@ -23,39 +32,186 @@ public class EmployerHibStorage implements IEmployerStorage {
 
     @Override
     public void addEmployer(Employer employer) {
+        this.session.beginTransaction();
+
         EmployersHibernate employerHib = new EmployersHibernate();
         employerHib.setName(employer.getName());
         employerHib.setSalary(employer.getSalary());
-//        employerHib.setPosition(new PositionHibernate(employer.getPosition()));
-//        employerHib.setDepartmentsHibernate(new DepartmentsHibernate(employer.getDepartment()));
+        employerHib.setPosition(getListPositions(employer.getPosition()).get(0));
+        employerHib.setDepartment(getListDepartments(employer.getDepartment()).get(0));
 
-        this.session.beginTransaction();
+
         this.session.save(employerHib);
         this.session.getTransaction().commit();
     }
 
+    private List<PositionHibernate> getListPositions(long id) {
+        CriteriaQuery<PositionHibernate> criteriaQuery = this.criteriaBuilder.createQuery(
+                PositionHibernate.class);
+
+        Root<PositionHibernate> itemRoot = criteriaQuery.from(PositionHibernate.class);
+
+        criteriaQuery.where(
+                criteriaBuilder.equal(itemRoot.get("id"), id)
+        );
+
+        List<PositionHibernate> position = session.createQuery(criteriaQuery).getResultList();
+
+        return position;
+    }
+
+    private List<DepartmentsHibernate> getListDepartments(long id) {
+        CriteriaQuery<DepartmentsHibernate> criteriaQuery = this.criteriaBuilder.createQuery(
+                DepartmentsHibernate.class);
+
+        Root<DepartmentsHibernate> itemRoot = criteriaQuery.from(DepartmentsHibernate.class);
+
+        criteriaQuery.where(
+                criteriaBuilder.equal(itemRoot.get("id"), id)
+        );
+
+        List<DepartmentsHibernate> departments = session.createQuery(criteriaQuery).getResultList();
+
+        return departments;
+    }
+
     @Override
     public void deleteAll() {
+        this.session.beginTransaction();
 
+        CriteriaDelete<EmployersHibernate> delete = criteriaBuilder.createCriteriaDelete(
+                EmployersHibernate.class);
+
+        delete.from(EmployersHibernate.class);
+
+        this.session.createQuery(delete).executeUpdate();
+        this.session.getTransaction().commit();
     }
 
     @Override
     public int getCountEmployers() {
-        return 0;
+
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        criteriaQuery.select(criteriaBuilder.count(criteriaQuery.from(EmployersHibernate.class)));
+
+        return session.createQuery(criteriaQuery).getSingleResult().intValue();
     }
 
     @Override
     public List<Employer> getAllEmployers() {
-        return null;
+
+        CriteriaQuery<EmployersHibernate> criteriaQuery = criteriaBuilder.createQuery(
+                EmployersHibernate.class);
+
+        List<EmployersHibernate> employersHibernates = session.createQuery(criteriaQuery).getResultList();
+
+        List<Employer> employers = new ArrayList<>();
+
+        for (EmployersHibernate employersHibernate : employersHibernates) {
+
+            employers.add(adapterEmployer(employersHibernate));
+
+        }
+        return employers;
     }
 
     @Override
     public Employer getEmployer(long id) {
-        return null;
+        this.session.beginTransaction();
+
+        CriteriaQuery<EmployersHibernate> criteriaQuery = this.criteriaBuilder.createQuery(
+                EmployersHibernate.class);
+
+        Root<EmployersHibernate> itemRoot = criteriaQuery.from(EmployersHibernate.class);
+
+        criteriaQuery.where(
+                criteriaBuilder.equal(itemRoot.get("id"), id)
+        );
+
+        List<EmployersHibernate> employersHibernates = session.createQuery(criteriaQuery).getResultList();
+
+        this.session.getTransaction().commit();
+
+        return adapterEmployer(employersHibernates.get(0));
     }
 
     @Override
     public List<Employer> getEmployersOffLimit(int offset, int limit) {
-        return null;
+        this.session.beginTransaction();
+
+        CriteriaQuery<EmployersHibernate> criteriaQuery = this.criteriaBuilder.createQuery(
+                EmployersHibernate.class);
+
+        criteriaQuery.from(EmployersHibernate.class);
+
+        List<EmployersHibernate> employersHibernates = session.createQuery(criteriaQuery)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+
+        this.session.getTransaction().commit();
+
+        List<Employer> employers = new ArrayList<>();
+
+        for (EmployersHibernate employersHibernate : employersHibernates) {
+
+            employers.add(adapterEmployer(employersHibernate));
+
+        }
+
+        return employers;
+    }
+
+    private Employer adapterEmployer(EmployersHibernate employersHibernate) {
+        Employer employer = new Employer();
+        employer.setId(employersHibernate.getId());
+        employer.setName(employersHibernate.getName());
+        employer.setSalary(employersHibernate.getSalary());
+        employer.setPosition(employersHibernate.getPosition().getId());
+        employer.setDepartment(employersHibernate.getDepartment().getId());
+        employer.setPositionName(employersHibernate.getPosition().getName());
+        employer.setDepartmentName(employersHibernate.getDepartment().getName());
+
+        return employer;
+    }
+
+    @Override
+    public List<Employer> getEmployersSearch(int offset, int limit, String name, double from, double to) {
+        this.session.beginTransaction();
+
+        CriteriaQuery<EmployersHibernate> criteriaQuery = this.criteriaBuilder.createQuery(
+                EmployersHibernate.class);
+
+        Root<EmployersHibernate> itemRoot = criteriaQuery.from(EmployersHibernate.class);
+
+        if (name != "") {
+            criteriaQuery.where(
+                    criteriaBuilder.and(
+                            criteriaBuilder.equal(itemRoot.get("name"), name),
+                            criteriaBuilder.between(itemRoot.get("salary"), from, to)
+                    )
+            );
+        } else {
+            criteriaQuery.where(
+                    criteriaBuilder.between(itemRoot.get("salary"), from, to)
+            );
+        }
+
+        List<EmployersHibernate> employersHibernates = session.createQuery(criteriaQuery)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+
+        this.session.getTransaction().commit();
+
+        List<Employer> employers = new ArrayList<>();
+
+        for (EmployersHibernate employersHibernate : employersHibernates) {
+
+            employers.add(adapterEmployer(employersHibernate));
+
+        }
+
+        return employers;
     }
 }

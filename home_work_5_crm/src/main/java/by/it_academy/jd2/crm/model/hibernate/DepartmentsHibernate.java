@@ -1,4 +1,4 @@
-package by.it_academy.jd2.crm.model;
+package by.it_academy.jd2.crm.model.hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;

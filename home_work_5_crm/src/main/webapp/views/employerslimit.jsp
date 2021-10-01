@@ -1,7 +1,3 @@
-<%@ page import="by.it_academy.jd2.crm.service.api.IPositionDepartmentService" %>
-<%@ page import="by.it_academy.jd2.crm.service.PositionDepartmentService" %>
-<%@ page import="by.it_academy.jd2.crm.service.api.IEmployersService" %>
-<%@ page import="by.it_academy.jd2.crm.service.EmployersService" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -20,14 +16,39 @@
 <h2>Сотрудники:</h2>
 <table class="table table-hover">
     <thead>
-    <tr>
-        <th scope="col">id</th>
-        <th scope="col">Имя</th>
-        <th scope="col">Зарплата</th>
-        <th scope="col">Должность</th>
-        <th scope="col">Отдел</th>
-    </tr>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Зарплата</th>
+            <th scope="col">Должность</th>
+            <th scope="col">Отдел</th>
+        </tr>
     </thead>
+    <tbody>
+        <c:choose>
+            <c:when test="${requestScope.search == true}">
+                <form method="get" action="${pageContext.request.contextPath}/search">
+                    <td></td>
+                    <td>
+                        <input class="form-control form-control-sm" name="name" type="text" placeholder="Введите имя" aria-label=".form-control-sm example">
+                    </td>
+                    <td>
+                        <div class="input-group col-md-8 col-xs-12 form-inline">
+                            <div class="input-group" style="width: 49%;">
+                                <input name="from" class="form-control form-control-sm" type="text" placeholder="От">
+                            </div>
+                            <div class="input-group" style="width: 49%;">
+                                <input name="to" class="form-control form-control-sm" type="text" placeholder="До">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="submit" class="btn btn-primary" value="Поиск"/>
+                    </td>
+                </form>
+            </c:when>
+        </c:choose>
+    </tbody>
     <tbody>
         <c:forEach var="employer" items="${employers}">
             <tr>

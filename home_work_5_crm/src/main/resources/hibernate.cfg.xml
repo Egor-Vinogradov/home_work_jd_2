@@ -15,8 +15,8 @@
 
         <property name="hibernate.hbm2ddl.auto">create</property>
 
-        <mapping class="by.it_academy.jd2.crm.model.EmployersHibernate"></mapping>
-        <mapping class="by.it_academy.jd2.crm.model.DepartmentsHibernate"></mapping>
-        <mapping class="by.it_academy.jd2.crm.model.PositionHibernate"></mapping>
+        <mapping class="by.it_academy.jd2.crm.model.hibernate.EmployersHibernate"></mapping>
+        <mapping class="by.it_academy.jd2.crm.model.hibernate.DepartmentsHibernate"></mapping>
+        <mapping class="by.it_academy.jd2.crm.model.hibernate.PositionHibernate"></mapping>
     </session-factory>
 </hibernate-configuration>

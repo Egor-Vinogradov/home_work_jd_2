@@ -3,6 +3,7 @@ package by.it_academy.jd2.crm.service;
 import by.it_academy.jd2.crm.model.Department;
 import by.it_academy.jd2.crm.model.Position;
 import by.it_academy.jd2.crm.service.api.IPositionDepartmentService;
+import by.it_academy.jd2.crm.storage.PosDepHibStorage;
 import by.it_academy.jd2.crm.storage.PositionDepartmentStorage;
 import by.it_academy.jd2.crm.storage.api.IPositionDepartmentStorage;
 
@@ -11,7 +12,8 @@ import java.util.List;
 public class PositionDepartmentService implements IPositionDepartmentService {
     private static PositionDepartmentService instance;
 
-    private final IPositionDepartmentStorage storage = PositionDepartmentStorage.getInstance();
+//    private final IPositionDepartmentStorage storage = PositionDepartmentStorage.getInstance();
+    private final IPositionDepartmentStorage storage = PosDepHibStorage.getInstance();
 
     public static PositionDepartmentService getInstance() {
         if (instance == null) {

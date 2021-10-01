@@ -1,16 +1,10 @@
 package by.it_academy.jd2.crm.model;
 
-import org.hibernate.annotations.Entity;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.io.Serializable;
 
-@Entity
 public class Department implements Serializable {
 
-    @Id
-    @GeneratedValue
+
     private long id;
     private String name;
     private long parent;

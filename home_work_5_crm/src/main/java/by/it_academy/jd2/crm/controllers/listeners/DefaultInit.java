@@ -2,7 +2,8 @@ package by.it_academy.jd2.crm.controllers.listeners;
 
 import by.it_academy.jd2.crm.model.ConfigDB;
 import by.it_academy.jd2.crm.service.DBInitializer;
-import by.it_academy.jd2.crm.service.HibernateUtil;
+import by.it_academy.jd2.crm.service.hibernate.HibernateUtil;
+import by.it_academy.jd2.crm.service.hibernate.InitHibDB;
 import by.it_academy.jd2.crm.storage.ConfigDBStorage;
 
 import javax.servlet.ServletContextEvent;
@@ -25,6 +26,8 @@ public class DefaultInit implements ServletContextListener {
         configDB.setPassword(PASSWORD);
 
         configDBStorage.add(configDB);
+
+        InitHibDB.createTable();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package by.it_academy.jd2.crm.service;
+package by.it_academy.jd2.crm.service.hibernate;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
