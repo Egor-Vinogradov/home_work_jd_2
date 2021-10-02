@@ -184,7 +184,7 @@ public class EmployerHibStorage implements IEmployerStorage, ISearchStorage {
 
         Root<EmployersHibernate> itemRoot = criteriaQuery.from(EmployersHibernate.class);
 
-        if (name != "") {
+        if (!name.equals("")) {
             criteriaQuery.where(
                     criteriaBuilder.and(
                             criteriaBuilder.equal(itemRoot.get("name"), name),

@@ -44,8 +44,9 @@ public class SearchServlet extends HttpServlet {
             firstButton = offset - 2;
         }
 
-        int generalListSize = this.service.getCountEmployers();
+
         int limit = 5;
+        int generalListSize = this.searchService.getEmployersSearch(0, Integer.MAX_VALUE, name, from, to).size();
         int numberPages = generalListSize / limit;
         int endButton = firstButton + 4;
         if (endButton >= numberPages) {
@@ -60,7 +61,7 @@ public class SearchServlet extends HttpServlet {
                     endButton = firstButton + 4;
                     break;
                 case "last":
-                    firstButton = generalListSize / limit - 2;
+                    firstButton = generalListSize / limit - 2 < 1 ? 1 : generalListSize / limit - 2;
                     offset = generalListSize / limit;
                     endButton = generalListSize / limit;
                     break;
@@ -74,6 +75,10 @@ public class SearchServlet extends HttpServlet {
         req.setAttribute("firstButton", firstButton);
         req.setAttribute("endButton", endButton);
         req.setAttribute("employers", list);
+
+        req.setAttribute("name", name);
+        req.setAttribute("from", from);
+        req.setAttribute("to", to);
 
         req.getRequestDispatcher("/views/employerslimit.jsp").forward(req, resp);
     }

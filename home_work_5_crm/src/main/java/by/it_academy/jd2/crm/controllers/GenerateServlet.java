@@ -29,7 +29,7 @@ public class GenerateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         if (req.getParameter("generate") != null) {
-            this.service.generateEmployers(50);
+            this.service.generateEmployers(1000);
         } else if (req.getParameter("clean") != null) {
             this.service.deleteAll();
         }

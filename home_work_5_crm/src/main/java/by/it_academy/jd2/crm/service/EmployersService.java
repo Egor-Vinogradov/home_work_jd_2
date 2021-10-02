@@ -57,7 +57,7 @@ public class EmployersService implements IEmployersService, ISearchService {
             long numberDepartment = ThreadLocalRandom.current().nextLong(3,6);
 
             Employer employer = new Employer();
-            employer.setName(names.get(random.nextInt(maxName)));
+            employer.setName(names.get(random.nextInt(maxName)).trim());
             employer.setSalary(salary);
             employer.setPosition(numberPosition);
             employer.setDepartment(numberDepartment);
