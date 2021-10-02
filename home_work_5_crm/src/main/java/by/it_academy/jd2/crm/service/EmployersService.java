@@ -1,6 +1,7 @@
 package by.it_academy.jd2.crm.service;
 
 import by.it_academy.jd2.crm.model.Employer;
+import by.it_academy.jd2.crm.model.filter.EmployeeSearchFilter;
 import by.it_academy.jd2.crm.service.api.IEmployersService;
 import by.it_academy.jd2.crm.service.api.ISearchService;
 import by.it_academy.jd2.crm.storage.EmployerHibStorage;
@@ -109,5 +110,10 @@ public class EmployersService implements IEmployersService, ISearchService {
     @Override
     public List<Employer> getEmployersSearch(int offset, int limit, String name, double from, double to) {
         return this.searchStorage.getEmployersSearch(offset, limit, name, from, to);
+    }
+
+    @Override
+    public List<Employer> getEmployersSearch(EmployeeSearchFilter searchFilter) {
+        return this.searchStorage.getEmployersSearch(searchFilter);
     }
 }

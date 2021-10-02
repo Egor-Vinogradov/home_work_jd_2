@@ -1,6 +1,9 @@
 package by.it_academy.jd2.crm.storage;
 
 import by.it_academy.jd2.crm.model.Employer;
+import by.it_academy.jd2.crm.model.filter.EPredicateOperator;
+import by.it_academy.jd2.crm.model.filter.ESalaryOperator;
+import by.it_academy.jd2.crm.model.filter.EmployeeSearchFilter;
 import by.it_academy.jd2.crm.model.hibernate.DepartmentsHibernate;
 import by.it_academy.jd2.crm.model.hibernate.EmployersHibernate;
 import by.it_academy.jd2.crm.model.hibernate.PositionHibernate;
@@ -9,10 +12,7 @@ import by.it_academy.jd2.crm.storage.api.IEmployerStorage;
 import by.it_academy.jd2.crm.storage.api.ISearchStorage;
 import org.hibernate.Session;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaDelete;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -203,6 +203,91 @@ public class EmployerHibStorage implements IEmployerStorage, ISearchStorage {
                 .getResultList();
 
         this.session.getTransaction().commit();
+
+        List<Employer> employers = new ArrayList<>();
+
+        for (EmployersHibernate employersHibernate : employersHibernates) {
+
+            employers.add(adapterEmployer(employersHibernate));
+
+        }
+
+        return employers;
+    }
+
+    @Override
+    public List<Employer> getEmployersSearch(EmployeeSearchFilter filter) {
+        this.session.beginTransaction();
+
+        CriteriaQuery<EmployersHibernate> criteriaQuery = this.criteriaBuilder.createQuery(
+                EmployersHibernate.class);
+
+        Root<EmployersHibernate> itemRoot = criteriaQuery.from(EmployersHibernate.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (filter.getName() != null) {
+            predicates.add(criteriaBuilder.equal(itemRoot.get("name"), filter.getName()));
+        }
+
+        if (filter.getSalary() != null) {
+            ESalaryOperator operator = filter.getSalaryOperator();
+            if (operator == null) {
+                operator = ESalaryOperator.GREAT_OR_EQUAL;
+            }
+            Predicate predicate;
+            switch (operator) {
+                case GREAT_OR_EQUAL:
+                    predicate = criteriaBuilder.ge(itemRoot.get("salary"), filter.getSalary());
+                    break;
+                case LESS_OR_EQUAL:
+                    predicate = criteriaBuilder.le(itemRoot.get("salary"), filter.getSalary());
+                default:
+                    predicate = null;
+            }
+
+            if (predicate == null) {
+                throw new IllegalArgumentException("Ошибка оператора");
+            }
+
+            predicates.add(predicate);
+        }
+
+        if (filter.getFrom() != null || filter.getTo() != null) {
+            Predicate predicate = criteriaBuilder.between(itemRoot.get("salary"),
+                    filter.getFrom(), filter.getTo());
+
+            if (predicate == null) {
+                throw  new IllegalArgumentException("Ошибка с интервалом");
+            }
+
+            predicates.add(predicate);
+        }
+
+        EPredicateOperator predicateOperator = filter.getPredicateOperator();
+
+        if (predicateOperator == null) {
+            predicateOperator = EPredicateOperator.AND;
+        }
+
+        Predicate[] predicatesArr = predicates.toArray(new Predicate[0]);
+
+        Expression<Boolean> restriction;
+
+        if (EPredicateOperator.AND.equals(predicateOperator)) {
+            restriction = criteriaBuilder.and(predicatesArr);
+        } else {
+            restriction = criteriaBuilder.or(predicatesArr);
+        }
+
+        criteriaQuery.where(restriction);
+
+        List<EmployersHibernate> employersHibernates = session.createQuery(criteriaQuery)
+                .setFirstResult(filter.getOffset())
+                .setMaxResults(filter.getLimit() == 0 ? 5 : filter.getLimit())
+                .getResultList();
+
+        session.getTransaction().commit();
 
         List<Employer> employers = new ArrayList<>();
 

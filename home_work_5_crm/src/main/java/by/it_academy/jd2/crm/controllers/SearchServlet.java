@@ -2,6 +2,7 @@ package by.it_academy.jd2.crm.controllers;
 
 import by.it_academy.jd2.crm.model.ConfigDB;
 import by.it_academy.jd2.crm.model.Employer;
+import by.it_academy.jd2.crm.model.filter.EmployeeSearchFilter;
 import by.it_academy.jd2.crm.service.EmployersService;
 import by.it_academy.jd2.crm.service.api.IEmployersService;
 import by.it_academy.jd2.crm.service.api.ISearchService;
@@ -70,7 +71,12 @@ public class SearchServlet extends HttpServlet {
 
         offset = (offset - 1) * limit;
 
-        List<Employer> list = this.searchService.getEmployersSearch(offset, limit, name, from, to);
+//        List<Employer> list = this.searchService.getEmployersSearch(offset, limit, name, from, to);
+        EmployeeSearchFilter filter = new EmployeeSearchFilter(offset, limit, null,
+                null, name, null, from, to, null);
+
+//        List<Employer> list = this.searchService.getEmployersSearch(offset, limit, name, from, to);
+        List<Employer> list = this.searchService.getEmployersSearch(filter);
 
         req.setAttribute("firstButton", firstButton);
         req.setAttribute("endButton", endButton);
