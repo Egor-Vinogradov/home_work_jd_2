@@ -6,6 +6,7 @@ import by.it_academy.jd2.crm.model.filter.EmployeeSearchFilter;
 import by.it_academy.jd2.crm.service.EmployersService;
 import by.it_academy.jd2.crm.service.api.IEmployersService;
 import by.it_academy.jd2.crm.service.api.ISearchService;
+import by.it_academy.jd2.crm.service.spring.ApplicationContextUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletConfig;
@@ -21,8 +22,10 @@ import java.util.List;
 public class SearchServlet extends HttpServlet {
 
 
-    private IEmployersService service = EmployersService.getInstance();
-    private ISearchService searchService = EmployersService.getInstance();
+//    private IEmployersService service = EmployersService.getInstance();
+    private IEmployersService service = ApplicationContextUtil.getContext().getBean(EmployersService.class);
+//    private ISearchService searchService = EmployersService.getInstance();
+    private ISearchService searchService = ApplicationContextUtil.getContext().getBean(EmployersService.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -75,7 +78,6 @@ public class SearchServlet extends HttpServlet {
         EmployeeSearchFilter filter = new EmployeeSearchFilter(offset, limit, null,
                 null, name, null, from, to, null);
 
-//        List<Employer> list = this.searchService.getEmployersSearch(offset, limit, name, from, to);
         List<Employer> list = this.searchService.getEmployersSearch(filter);
 
         req.setAttribute("firstButton", firstButton);

@@ -3,6 +3,7 @@ package by.it_academy.jd2.crm.controllers;
 import by.it_academy.jd2.crm.model.Employer;
 import by.it_academy.jd2.crm.service.EmployersService;
 import by.it_academy.jd2.crm.service.api.IEmployersService;
+import by.it_academy.jd2.crm.service.spring.ApplicationContextUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +16,8 @@ import java.util.List;
 @WebServlet(name = "EmployerServletOffLimit", urlPatterns = "/employerslimit")
 public class EmployerServletOffLimit extends HttpServlet {
 
-    private IEmployersService service = EmployersService.getInstance();
+//    private IEmployersService service = EmployersService.getInstance();
+    private IEmployersService service = ApplicationContextUtil.getContext().getBean(EmployersService.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="by.it_academy.jd2.crm.service.EmployersService">
+        <constructor-arg index="0" ref="employerStorage"/>
+        <constructor-arg index="1" ref="employerSearchStorage"/>
+    </bean>
+
+    <bean class="by.it_academy.jd2.crm.service.PositionDepartmentService">
+        <constructor-arg ref="posDepStorage"/>
+    </bean>
+
+    <bean id="employerStorage" class="by.it_academy.jd2.crm.storage.EmployerHibStorage"/>
+    <bean id="employerSearchStorage" class="by.it_academy.jd2.crm.storage.EmployerHibStorage"/>
+
+    <bean id="posDepStorage" class="by.it_academy.jd2.crm.storage.PosDepHibStorage"/>
+
+</beans>

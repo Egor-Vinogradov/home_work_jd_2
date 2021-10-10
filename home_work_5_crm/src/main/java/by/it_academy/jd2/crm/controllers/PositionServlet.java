@@ -4,6 +4,7 @@ import by.it_academy.jd2.crm.model.Department;
 import by.it_academy.jd2.crm.model.Position;
 import by.it_academy.jd2.crm.service.PositionDepartmentService;
 import by.it_academy.jd2.crm.service.api.IPositionDepartmentService;
+import by.it_academy.jd2.crm.service.spring.ApplicationContextUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +17,9 @@ import java.util.List;
 @WebServlet(name = "PositionServlet", urlPatterns = "/position")
 public class PositionServlet extends HttpServlet {
 
-    private IPositionDepartmentService service = PositionDepartmentService.getInstance();
+//    private IPositionDepartmentService service = PositionDepartmentService.getInstance();
+    private IPositionDepartmentService service =
+        ApplicationContextUtil.getContext().getBean(PositionDepartmentService.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

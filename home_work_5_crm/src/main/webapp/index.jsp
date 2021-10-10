@@ -3,6 +3,7 @@
 <%@ page import="by.it_academy.jd2.crm.service.api.IPositionDepartmentService" %>
 <%@ page import="by.it_academy.jd2.crm.service.PositionDepartmentService" %>
 <%@ page import="by.it_academy.jd2.crm.service.hibernate.InitHibDB" %>
+<%@ page import="by.it_academy.jd2.crm.service.spring.ApplicationContextUtil" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -24,21 +25,26 @@
         <%!
             public int getCountEmployers() {
                 int count;
-                IEmployersService service = EmployersService.getInstance();
+//                IEmployersService service = EmployersService.getInstance();
+                IEmployersService service = ApplicationContextUtil.getContext().getBean(EmployersService.class);
                 count = service.getCountEmployers();
                 return count;
             }
 
             public int getCountPosition() {
                 int count;
-                IPositionDepartmentService service = PositionDepartmentService.getInstance();
+//                IPositionDepartmentService service = PositionDepartmentService.getInstance();
+                IPositionDepartmentService service =
+                        ApplicationContextUtil.getContext().getBean(PositionDepartmentService.class);
                 count = service.getCount("position");
                 return count;
             }
 
             public int getCountDepartment() {
                 int count;
-                IPositionDepartmentService service = PositionDepartmentService.getInstance();
+//                IPositionDepartmentService service = PositionDepartmentService.getInstance();
+                IPositionDepartmentService service =
+                        ApplicationContextUtil.getContext().getBean(PositionDepartmentService.class);
                 count = service.getCount("department");
                 return count;
             }

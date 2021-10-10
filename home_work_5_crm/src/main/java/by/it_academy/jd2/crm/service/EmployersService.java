@@ -8,6 +8,9 @@ import by.it_academy.jd2.crm.storage.EmployerHibStorage;
 import by.it_academy.jd2.crm.storage.EmployerStorage;
 import by.it_academy.jd2.crm.storage.api.IEmployerStorage;
 import by.it_academy.jd2.crm.storage.api.ISearchStorage;
+import by.it_academy.jd2.crm.storage.spring.EmployerHibStorageSpring;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,21 +21,28 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class EmployersService implements IEmployersService, ISearchService {
-    private static EmployersService instance;
+//    private static EmployersService instance;
 
-    private final IEmployerStorage storage = EmployerHibStorage.getInstance();
+//    private final IEmployerStorage storage = EmployerHibStorage.getInstance();
 //    private final IEmployerStorage storage = EmployerStorage.getInstance();
+    private final IEmployerStorage storage;
+    private final ISearchStorage searchStorage;
 
-    private final ISearchStorage searchStorage = EmployerHibStorage.getInstance();
-
-    public static EmployersService getInstance() {
-        if (instance == null) {
-            synchronized (EmployersService.class) {
-                instance = new EmployersService();
-            }
-        }
-        return instance;
+    public EmployersService(IEmployerStorage storage, ISearchStorage searchStorage) {
+        this.storage = storage;
+        this.searchStorage = searchStorage;
     }
+
+    //    private final ISearchStorage searchStorage = EmployerHibStorage.getInstance();
+
+//    public static EmployersService getInstance() {
+//        if (instance == null) {
+//            synchronized (EmployersService.class) {
+//                instance = new EmployersService();
+//            }
+//        }
+//        return instance;
+//    }
 
     @Override
     public void add(Employer employer) {
@@ -115,5 +125,14 @@ public class EmployersService implements IEmployersService, ISearchService {
     @Override
     public List<Employer> getEmployersSearch(EmployeeSearchFilter searchFilter) {
         return this.searchStorage.getEmployersSearch(searchFilter);
+    }
+
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("storage.xml");
+        IEmployerStorage storage = context.getBean(EmployerHibStorageSpring.class);
+
+        Employer employer = storage.getEmployer(1);
+
+        System.out.println(employer);
     }
 }

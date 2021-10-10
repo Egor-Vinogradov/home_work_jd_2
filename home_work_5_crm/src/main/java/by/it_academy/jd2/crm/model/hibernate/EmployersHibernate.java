@@ -61,4 +61,15 @@ public class EmployersHibernate implements Serializable {
     public void setDepartment(DepartmentsHibernate department) {
         this.department = department;
     }
+
+    @Override
+    public String toString() {
+        return "EmployersHibernate{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", salary=" + salary +
+                ", position=" + position +
+                ", department=" + department +
+                '}';
+    }
 }

@@ -10,19 +10,24 @@ import by.it_academy.jd2.crm.storage.api.IPositionDepartmentStorage;
 import java.util.List;
 
 public class PositionDepartmentService implements IPositionDepartmentService {
-    private static PositionDepartmentService instance;
+//    private static PositionDepartmentService instance;
 
 //    private final IPositionDepartmentStorage storage = PositionDepartmentStorage.getInstance();
-    private final IPositionDepartmentStorage storage = PosDepHibStorage.getInstance();
+//    private final IPositionDepartmentStorage storage = PosDepHibStorage.getInstance();
+    private final IPositionDepartmentStorage storage;
 
-    public static PositionDepartmentService getInstance() {
-        if (instance == null) {
-            synchronized (PositionDepartmentService.class) {
-                instance = new PositionDepartmentService();
-            }
-        }
-        return instance;
+    public PositionDepartmentService(IPositionDepartmentStorage storage) {
+        this.storage = storage;
     }
+
+    //    public static PositionDepartmentService getInstance() {
+//        if (instance == null) {
+//            synchronized (PositionDepartmentService.class) {
+//                instance = new PositionDepartmentService();
+//            }
+//        }
+//        return instance;
+//    }
 
     @Override
     public int getCount(String value) {
