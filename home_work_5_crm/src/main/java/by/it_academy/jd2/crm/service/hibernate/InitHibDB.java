@@ -2,7 +2,9 @@ package by.it_academy.jd2.crm.service.hibernate;
 
 import by.it_academy.jd2.crm.model.hibernate.DepartmentsHibernate;
 import by.it_academy.jd2.crm.model.hibernate.PositionHibernate;
+import by.it_academy.jd2.crm.service.spring.ApplicationContextUtilAnnotation;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 public class InitHibDB {
 

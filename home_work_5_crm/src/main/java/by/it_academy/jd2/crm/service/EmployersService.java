@@ -3,6 +3,7 @@ package by.it_academy.jd2.crm.service;
 import by.it_academy.jd2.crm.model.Employer;
 import by.it_academy.jd2.crm.model.filter.EmployeeSearchFilter;
 import by.it_academy.jd2.crm.service.api.IEmployersService;
+import by.it_academy.jd2.crm.service.api.IPositionDepartmentService;
 import by.it_academy.jd2.crm.service.api.ISearchService;
 import by.it_academy.jd2.crm.storage.EmployerHibStorage;
 import by.it_academy.jd2.crm.storage.EmployerStorage;
@@ -10,6 +11,7 @@ import by.it_academy.jd2.crm.storage.api.IEmployerStorage;
 import by.it_academy.jd2.crm.storage.api.ISearchStorage;
 import by.it_academy.jd2.crm.storage.spring.EmployerHibStorageSpring;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
@@ -128,11 +130,13 @@ public class EmployersService implements IEmployersService, ISearchService {
     }
 
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("storage.xml");
-        IEmployerStorage storage = context.getBean(EmployerHibStorageSpring.class);
+        AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext("by.it_academy.jd2.crm");
 
-        Employer employer = storage.getEmployer(1);
+        IPositionDepartmentService service = context.getBean(PositionDepartmentService.class);
+        IEmployersService serviceEmployer = context.getBean(EmployersService.class);
 
-        System.out.println(employer);
+        System.out.println(service.getPosition(1l).getName());
+        System.out.println(serviceEmployer.getEmployer(5l).getName());
     }
 }
