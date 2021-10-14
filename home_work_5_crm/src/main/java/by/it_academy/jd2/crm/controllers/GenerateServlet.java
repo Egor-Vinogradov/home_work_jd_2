@@ -18,7 +18,9 @@ import java.io.IOException;
 @WebServlet(name = "GenerateServlet", urlPatterns = "/generate")
 public class GenerateServlet extends HttpServlet {
 
-    private IEmployersService service = ApplicationContextUtil.getContext().getBean(EmployersService.class);
+    private IEmployersService service =
+//            ApplicationContextUtil.getContext().getBean(EmployersService.class);
+            ApplicationContextUtilAnnotation.getContext().getBean(EmployersService.class);
 //    private IPositionDepartmentService servicePD = PositionDepartmentService.getInstance();
     private IPositionDepartmentService servicePD =
         ApplicationContextUtil.getContext().getBean(PositionDepartmentService.class);

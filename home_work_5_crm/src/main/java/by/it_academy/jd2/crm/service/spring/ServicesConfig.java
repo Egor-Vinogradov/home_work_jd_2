@@ -13,6 +13,7 @@ import by.it_academy.jd2.crm.storage.spring.EmployerHibStorageSpring;
 import by.it_academy.jd2.crm.storage.spring.PosDepHibStorageSpring;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
@@ -29,8 +30,8 @@ public class ServicesConfig {
     }
 
     @Bean
-    public IPositionDepartmentService positionDepartmentService(IPositionDepartmentStorage storage) {
-        return new PositionDepartmentService(storage);
+    public IPositionDepartmentService positionDepartmentService(IPositionDepartmentStorage positionDepartmentStorage) {
+        return new PositionDepartmentService(positionDepartmentStorage);
     }
 
     @Bean

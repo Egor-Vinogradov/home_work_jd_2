@@ -18,7 +18,7 @@ public class DepartmentCardServlet extends HttpServlet {
 //    private IPositionDepartmentService service = PositionDepartmentService.getInstance();
     private IPositionDepartmentService service =
 //        ApplicationContextUtil.getContext().getBean(PositionDepartmentService.class);
-        ApplicationContextUtilAnnotation.getContext().getBean(PositionDepartmentService.class);
+        ApplicationContextUtilAnnotation.getContext().getBean(IPositionDepartmentService.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
