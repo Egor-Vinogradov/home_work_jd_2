@@ -18,6 +18,12 @@ public class DepartmentsHibernate implements Serializable {
     public DepartmentsHibernate() {
     }
 
+    public DepartmentsHibernate(long id, String name, DepartmentsHibernate parent) {
+        this.id = id;
+        this.name = name;
+        this.parent = parent;
+    }
+
     public long getId() {
         return id;
     }

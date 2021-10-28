@@ -170,4 +170,35 @@ public class PosDepHibStorageSpring implements IPositionDepartmentStorage {
 
         return adapterDepartment(departmentsHibernates.get(0));
     }
+
+    @Override
+    public DepartmentsHibernate getDepartmentHibernate(long id) {
+        CriteriaQuery<DepartmentsHibernate> criteriaQuery = criteriaBuilder.createQuery(
+                DepartmentsHibernate.class);
+
+        Root<DepartmentsHibernate> root = criteriaQuery.from(DepartmentsHibernate.class);
+
+        criteriaQuery.where(
+                criteriaBuilder.equal(root.get("id"), id)
+        );
+
+        List<DepartmentsHibernate> departmentsHibernates = session.createQuery(criteriaQuery)
+                .getResultList();
+        return departmentsHibernates.get(0);
+    }
+
+    @Override
+    public PositionHibernate getPositionHibernate(long id) {
+        CriteriaQuery<PositionHibernate> criteriaQuery = criteriaBuilder.createQuery(
+                PositionHibernate.class);
+
+        Root<PositionHibernate> root = criteriaQuery.from(PositionHibernate.class);
+
+        criteriaQuery.where(
+                criteriaBuilder.equal(root.get("id"), id)
+        );
+
+        List<PositionHibernate> positionHibernates = session.createQuery(criteriaQuery).getResultList();
+        return positionHibernates.get(0);
+    }
 }

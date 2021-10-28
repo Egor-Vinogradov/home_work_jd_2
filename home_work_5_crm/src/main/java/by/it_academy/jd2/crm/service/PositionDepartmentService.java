@@ -2,6 +2,8 @@ package by.it_academy.jd2.crm.service;
 
 import by.it_academy.jd2.crm.model.Department;
 import by.it_academy.jd2.crm.model.Position;
+import by.it_academy.jd2.crm.model.hibernate.DepartmentsHibernate;
+import by.it_academy.jd2.crm.model.hibernate.PositionHibernate;
 import by.it_academy.jd2.crm.service.api.IPositionDepartmentService;
 import by.it_academy.jd2.crm.storage.PosDepHibStorage;
 import by.it_academy.jd2.crm.storage.PositionDepartmentStorage;
@@ -57,5 +59,15 @@ public class PositionDepartmentService implements IPositionDepartmentService {
     @Override
     public Department getDepartment(long id) {
         return this.storage.getDepartment(id);
+    }
+
+    @Override
+    public DepartmentsHibernate getDepartmentHibernate(long id) {
+        return this.storage.getDepartmentHibernate(id);
+    }
+
+    @Override
+    public PositionHibernate getPositionHibernate(long id) {
+        return this.storage.getPositionHibernate(id);
     }
 }

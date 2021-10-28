@@ -34,48 +34,48 @@ public class ServicesConfig {
         return new PositionDepartmentService(positionDepartmentStorage);
     }
 
-    @Bean
-    public IEmployerStorage employerStorage(SessionFactory sessionFactory) {
-        return new EmployerHibStorageSpring(sessionFactory);
-    }
-
-    @Bean
-    public ISearchStorage searchStorage(SessionFactory sessionFactory) {
-        return new EmployerHibStorageSpring(sessionFactory);
-    }
-
-    @Bean
-    public IPositionDepartmentStorage positionDepartmentStorage(SessionFactory sessionFactory) {
-        return new PosDepHibStorageSpring(sessionFactory);
-    }
-
-    @Bean
-    public SessionFactory sessionFactory(DataSource dataSource) {
-        LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource);
-        builder.scanPackages("by.it_academy.jd2.crm.model");
-        builder.setProperty("hibernate.show_sql", "true");
-        builder.setProperty("hibernate.hbm2ddl.auto", "update");
-        builder.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
-        return builder.buildSessionFactory();
-    }
-
-    @Bean
-    public DataSource dataSource() {
-
-        ComboPooledDataSource dataSource = new ComboPooledDataSource();
-
-        try {
-            dataSource.setDriverClass("org.postgresql.Driver");
-            dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/crm");
-            dataSource.setUser("root");
-            dataSource.setPassword("root");
-            dataSource.setMinPoolSize(5);
-            dataSource.setAcquireIncrement(5);
-            dataSource.setMaxPoolSize(20);
-            dataSource.setMaxStatements(100);
-        } catch (PropertyVetoException e) {
-            throw new IllegalStateException("Ошибка работы с БД", e);
-        }
-        return dataSource;
-    }
+//    @Bean
+//    public IEmployerStorage employerStorage(SessionFactory sessionFactory) {
+//        return new EmployerHibStorageSpring(sessionFactory);
+//    }
+//
+//    @Bean
+//    public ISearchStorage searchStorage(SessionFactory sessionFactory) {
+//        return new EmployerHibStorageSpring(sessionFactory);
+//    }
+//
+//    @Bean
+//    public IPositionDepartmentStorage positionDepartmentStorage(SessionFactory sessionFactory) {
+//        return new PosDepHibStorageSpring(sessionFactory);
+//    }
+//
+//    @Bean
+//    public SessionFactory sessionFactory(DataSource dataSource) {
+//        LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource);
+//        builder.scanPackages("by.it_academy.jd2.crm.model");
+//        builder.setProperty("hibernate.show_sql", "true");
+//        builder.setProperty("hibernate.hbm2ddl.auto", "update");
+//        builder.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
+//        return builder.buildSessionFactory();
+//    }
+//
+//    @Bean
+//    public DataSource dataSource() {
+//
+//        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+//
+//        try {
+//            dataSource.setDriverClass("org.postgresql.Driver");
+//            dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/crm");
+//            dataSource.setUser("root");
+//            dataSource.setPassword("root");
+//            dataSource.setMinPoolSize(5);
+//            dataSource.setAcquireIncrement(5);
+//            dataSource.setMaxPoolSize(20);
+//            dataSource.setMaxStatements(100);
+//        } catch (PropertyVetoException e) {
+//            throw new IllegalStateException("Ошибка работы с БД", e);
+//        }
+//        return dataSource;
+//    }
 }

@@ -63,6 +63,9 @@
 
     </tr>
 </table>
+<button type="button" class="btn btn-primary" onclick="document.location='${pageContext.request.contextPath}/api/new'">Добавить сотрудника</button>
+<hr>
+<hr>
 <form action="${pageContext.request.contextPath}/generate" method="post">
     <button type="submit" class="btn btn-primary" name="generate">Сгенерировать сотрудников</button>
     <button type="submit" class="btn btn-primary" name="clean">Очистить базу сотрудников</button>

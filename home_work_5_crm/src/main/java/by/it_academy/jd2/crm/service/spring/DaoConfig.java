@@ -16,7 +16,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 
-//@Configuration
+@Configuration
 public class DaoConfig {
 
     @Bean
@@ -39,7 +39,7 @@ public class DaoConfig {
         LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource);
         builder.scanPackages("by.it_academy.jd2.crm.model");
         builder.setProperty("hibernate.show_sql", "true");
-        builder.setProperty("hibernate.hbm2ddl.auto", "create");
+        builder.setProperty("hibernate.hbm2ddl.auto", "update");
         builder.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
         return builder.buildSessionFactory();
     }

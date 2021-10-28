@@ -173,4 +173,14 @@ public class PosDepHibStorage implements IPositionDepartmentStorage {
 
         return adapterDepartment(departmentsHibernates.get(0));
     }
+
+    @Override
+    public DepartmentsHibernate getDepartmentHibernate(long id) {
+        return null;
+    }
+
+    @Override
+    public PositionHibernate getPositionHibernate(long id) {
+        return null;
+    }
 }
