@@ -2,18 +2,16 @@ package by.it_academy.jd2.food_control.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "product", schema = "application")
 public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
-    @ManyToOne
-    private Brand brand;
+    private String brand;
 
     private double calories;
     private double protein;
@@ -21,18 +19,15 @@ public class Product implements Serializable {
     private double carbohydrates;
     private double measure;
 
-    public Product() {
-    }
+    @OneToOne
+    private User user;
 
-    public Product(Long id, Brand brand, double calories, double protein, double fats, double carbohydrates, double measure) {
-        this.id = id;
-        this.brand = brand;
-        this.calories = calories;
-        this.protein = protein;
-        this.fats = fats;
-        this.carbohydrates = carbohydrates;
-        this.measure = measure;
-    }
+    private LocalDateTime creationDate;
+    private LocalDateTime updateDate;
+
+    @Version
+    @Column(nullable = false)
+    private Long version;
 
     public Long getId() {
         return id;
@@ -50,11 +45,11 @@ public class Product implements Serializable {
         this.name = name;
     }
 
-    public Brand getBrand() {
+    public String getBrand() {
         return brand;
     }
 
-    public void setBrand(Brand brand) {
+    public void setBrand(String brand) {
         this.brand = brand;
     }
 
@@ -98,17 +93,35 @@ public class Product implements Serializable {
         this.measure = measure;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", brand=" + brand +
-                ", calories=" + calories +
-                ", protein=" + protein +
-                ", fats=" + fats +
-                ", carbohydrates=" + carbohydrates +
-                ", measure=" + measure +
-                '}';
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public LocalDateTime getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(LocalDateTime updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

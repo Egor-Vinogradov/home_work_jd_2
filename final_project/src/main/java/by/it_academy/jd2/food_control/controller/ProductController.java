@@ -1,79 +1,87 @@
 package by.it_academy.jd2.food_control.controller;
 
 import by.it_academy.jd2.food_control.model.Product;
-import by.it_academy.jd2.food_control.service.api.IProductService;
-import org.springframework.http.HttpHeaders;
+import by.it_academy.jd2.food_control.model.search.SearchFilter;
+import by.it_academy.jd2.food_control.service.api.IService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/api/product")
+@CrossOrigin
 public class ProductController {
 
-    private final IProductService productService;
+    private final IService<Product, Long> productService;
 
-    public ProductController(IProductService productService) {
+    public ProductController(IService<Product, Long> productService) {
         this.productService = productService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Product> getAllProducts(/*@RequestParam(value = "page", required = false) long page,
-                                        @RequestParam(value = "size", required = false) long size,
-                                        @RequestParam(value = "name", required = false) String name,
-                                        Model model*/) {
-        List<Product> products = this.productService.getAllProducts();
-        return products;
+    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(value = "page", required = false) long page,
+                                                        @RequestParam(value = "size", required = false) long size,
+                                                        @RequestParam(value = "name", required = false) String name) {
+        SearchFilter filter = new SearchFilter();
+        filter.setName(name);
+        filter.setSize(size);
+        filter.setPage(page);
+
+        List<Product> products = this.productService.findAll(filter);
+        if (products != null) {
+            return new ResponseEntity<>(products, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 
-    @CrossOrigin /* временное явление */
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> addProduct(@RequestBody Product product, Model model) {
-        Product productNew = this.productService.addProduct(product);
-        if (productNew != null) {
-            return new ResponseEntity<String>(product.toString(), HttpStatus.OK);
+    public ResponseEntity<?> addProduct(@RequestBody Product product) {
+        Long id = this.productService.addItem(product);
+        if (id != null) {
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<String>(HttpStatus.NOT_IMPLEMENTED);
+            return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
         }
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<String> getProduct(@PathVariable("id") long id, Model model) {
-        Product product = this.productService.getProduct(id);
-        if(product != null) {
-            return new ResponseEntity<String>(product.toString(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<String>(HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<?> getProduct(@PathVariable("id") Long id) {
+        Product product = null;
+        try {
+            product = this.productService.findById(id);
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 
     @RequestMapping(value = "/{id}/dt_update/{dt_update}", method = RequestMethod.PUT)
-    public ResponseEntity<String> putProduct(@RequestBody Product product,
-                                             @PathVariable("id") long id,
-                                             @PathVariable("dt_update") long version,
-                                             Model model) {
-        Product productUpdate = this.productService.putProduct(id, product, version);
-        if (productUpdate != null) {
-            return new ResponseEntity<String>(productUpdate.toString(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<String>(HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<?> updateProduct(@RequestBody Product product,
+                                           @PathVariable("id") Long id,
+                                           @PathVariable("dt_update") Long version) {
+        product.setVersion(version);
+        Product productUpdate = null;
+        try {
+            productUpdate = this.productService.updateItem(id, product);
+            return new ResponseEntity<>(productUpdate, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
         }
     }
 
     @RequestMapping(value = "/{id}/dt_update/{dt_update}", method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteProduct(@PathVariable("id") long id,
-                                                @PathVariable("dt_update") long version,
-                                                Model model) {
-        boolean result = this.productService.deleteProduct(id, version);
-        if (result) {
-            return new ResponseEntity<String>(HttpStatus.OK);
+    public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id,
+                                           @PathVariable("dt_update") Long version) {
+//        boolean result = this.productService.deleteId(id, version);
+        if (this.productService.deleteId(id, version)) {
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            return new ResponseEntity<String>(HttpStatus.NOT_IMPLEMENTED);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 }
+
