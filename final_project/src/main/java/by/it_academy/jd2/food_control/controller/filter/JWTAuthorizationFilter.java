@@ -42,7 +42,8 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     }
 
     private Claims validateToken(HttpServletRequest request) {
-        String jwtToken = request.getHeader(HEADER).replace(PREFIX, "");
+//        String jwtToken = request.getHeader(HEADER).replace(PREFIX, "");
+        String jwtToken = request.getParameter("token").replace(PREFIX, "");
         return Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(jwtToken).getBody();
     }
 
@@ -57,12 +58,14 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(claims.getSubject(), null,
                 authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+
         SecurityContextHolder.getContext().setAuthentication(auth);
 
     }
 
     private boolean checkJWTToken(HttpServletRequest request, HttpServletResponse res) {
-        String authenticationHeader = request.getHeader(HEADER);
+//        String authenticationHeader = request.getHeader(HEADER);
+        String authenticationHeader = request.getParameter("token");
         if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX))
             return false;
         return true;

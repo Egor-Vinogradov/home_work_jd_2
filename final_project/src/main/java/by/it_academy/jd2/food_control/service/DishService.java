@@ -2,7 +2,7 @@ package by.it_academy.jd2.food_control.service;
 
 import by.it_academy.jd2.food_control.dao.api.IDishDao;
 import by.it_academy.jd2.food_control.model.Dish;
-import by.it_academy.jd2.food_control.model.search.SearchFilter;
+import by.it_academy.jd2.food_control.dto.search.SearchFilter;
 import by.it_academy.jd2.food_control.service.api.IService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;

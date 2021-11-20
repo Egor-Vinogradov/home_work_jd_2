@@ -1,4 +1,4 @@
-package by.it_academy.jd2.food_control.model.search;
+package by.it_academy.jd2.food_control.dto.search;
 
 public class SearchFilter {
     private long page;

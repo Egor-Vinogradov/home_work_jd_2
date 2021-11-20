@@ -1,7 +1,7 @@
 package by.it_academy.jd2.food_control.controller;
 
 import by.it_academy.jd2.food_control.model.Product;
-import by.it_academy.jd2.food_control.model.search.SearchFilter;
+import by.it_academy.jd2.food_control.dto.search.SearchFilter;
 import by.it_academy.jd2.food_control.service.api.IService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,6 +33,23 @@ public class ProductController {
         List<Product> products = this.productService.findAll(filter);
         if (products != null) {
             return new ResponseEntity<>(products, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    // не по тз. для удобства фронта
+    @RequestMapping(value = "/all/", method = RequestMethod.GET)
+    public ResponseEntity<Long> getAllProductsPage () {
+
+        SearchFilter filter = new SearchFilter();
+        filter.setName("");
+        filter.setSize(Integer.MAX_VALUE);
+        filter.setPage(0);
+
+        List<Product> products = this.productService.findAll(filter);
+        if (products != null) {
+            return new ResponseEntity<Long>(Long.valueOf(products.size()), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

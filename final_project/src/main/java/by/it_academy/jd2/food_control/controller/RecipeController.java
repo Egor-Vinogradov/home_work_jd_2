@@ -2,7 +2,7 @@ package by.it_academy.jd2.food_control.controller;
 
 import by.it_academy.jd2.food_control.model.Dish;
 import by.it_academy.jd2.food_control.model.Recipe;
-import by.it_academy.jd2.food_control.model.search.SearchFilter;
+import by.it_academy.jd2.food_control.dto.search.SearchFilter;
 import by.it_academy.jd2.food_control.service.api.IService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

@@ -10,6 +10,9 @@ import java.util.List;
 
 public interface IUserDao extends JpaRepository<User, Long> {
 
-    @Query("SELECT p FROM Product p WHERE p.name LIKE CONCAT('%',:name,'%') ORDER BY p.id")
+    @Query("SELECT p FROM User p WHERE p.login LIKE CONCAT('%',:name,'%') ORDER BY p.id")
+    List<User> findByLogin(@Param("name") String name);
+
+    @Query("SELECT p FROM User p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%',:name,'%')) ORDER BY p.id")
     List<User> findByName(@Param("name") String name, Pageable pageable);
 }

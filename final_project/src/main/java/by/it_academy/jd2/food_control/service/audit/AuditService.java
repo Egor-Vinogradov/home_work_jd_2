@@ -4,7 +4,7 @@ import by.it_academy.jd2.food_control.dao.api.IAuditDao;
 import by.it_academy.jd2.food_control.model.Audit;
 import by.it_academy.jd2.food_control.model.api.EEssenceName;
 import by.it_academy.jd2.food_control.model.api.ETypeAudit;
-import by.it_academy.jd2.food_control.model.search.SearchFilter;
+import by.it_academy.jd2.food_control.dto.search.SearchFilter;
 import by.it_academy.jd2.food_control.service.api.IService;
 import org.springframework.stereotype.Service;
 

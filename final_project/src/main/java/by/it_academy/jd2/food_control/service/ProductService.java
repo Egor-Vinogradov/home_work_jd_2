@@ -2,11 +2,12 @@ package by.it_academy.jd2.food_control.service;
 
 import by.it_academy.jd2.food_control.dao.api.IProductDao;
 import by.it_academy.jd2.food_control.model.Product;
-import by.it_academy.jd2.food_control.model.search.SearchFilter;
+import by.it_academy.jd2.food_control.dto.search.SearchFilter;
 import by.it_academy.jd2.food_control.service.api.IService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,9 +15,11 @@ import java.util.List;
 public class ProductService implements IService<Product, Long> {
 
     private final IProductDao repository;
+    private final UserService userService;
 
-    public ProductService(IProductDao repository) {
+    public ProductService(IProductDao repository, UserService userService) {
         this.repository = repository;
+        this.userService = userService;
     }
 
     @Override
@@ -74,6 +77,34 @@ public class ProductService implements IService<Product, Long> {
             return this.repository.save(product);
         } catch (Exception e) {
             throw new IllegalArgumentException("Не удалось обновить продукт");
+        }
+    }
+
+    @PostConstruct
+    private void startInit() {
+        for (int i = 1; i < 6; i++) {
+            Product product = new Product();
+            product.setName("Молоко " + i);
+            product.setBrand("Савушкин");
+            product.setMeasure(100);
+            product.setUser(this.userService.findById(1L));
+            addItem(product);
+        }
+        for (int i = 1; i < 6; i++) {
+            Product product = new Product();
+            product.setName("Хлеб " + i);
+            product.setBrand("Перфект");
+            product.setMeasure(100);
+            product.setUser(this.userService.findById(1L));
+            addItem(product);
+        }
+        for (int i = 1; i < 6; i++) {
+            Product product = new Product();
+            product.setName("Макароны " + i);
+            product.setBrand("ХЗ");
+            product.setMeasure(100);
+            product.setUser(this.userService.findById(1L));
+            addItem(product);
         }
     }
 }
