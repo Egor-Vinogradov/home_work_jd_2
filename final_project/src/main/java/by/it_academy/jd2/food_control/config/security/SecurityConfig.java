@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/**").permitAll()
 //                .antMatchers("/api/**").hasAuthority(ERoleUser.ROLE_USER.getTitle())
 //                .antMatchers("/**").hasAuthority(ERoleUser.ROLE_ADMIN.getTitle())
-                .antMatchers("/api/user/registration", "/api/user/auth").permitAll()
+                .antMatchers("/api/user/registration*", "/api/user/auth").permitAll()
                 .anyRequest().authenticated();
     }
 

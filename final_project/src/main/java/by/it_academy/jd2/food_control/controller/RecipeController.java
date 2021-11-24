@@ -39,7 +39,7 @@ public class RecipeController {
         if (dishes != null && dishes.size() > 0) {
             return new ResponseEntity<>(dishes, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 

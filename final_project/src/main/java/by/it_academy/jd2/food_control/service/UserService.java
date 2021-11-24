@@ -86,7 +86,7 @@ public class UserService implements IUserService, ILoginSearch<User> {
 
             message.setTo(user.getLogin());
             message.setSubject("Подтверждение регистрации");
-            message.setText("Для окончания регистрации пройдите по ссылке: http://localhost:8080/api/user?login=" + user.getLogin());
+            message.setText("Для окончания регистрации пройдите по ссылке: http://localhost:8080/api/user/registration?login=" + user.getLogin());
 
             this.mailConfig.getJavaMailSender().send(message);
 
