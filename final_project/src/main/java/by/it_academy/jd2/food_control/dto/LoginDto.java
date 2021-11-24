@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 
 public class LoginDto {
 
+    private Long id;
     @Email(message = "invalid format")
     private String login;
     private String password;
@@ -14,6 +15,14 @@ public class LoginDto {
     private String name;
     private EUserStatus status;
     private ERoleUser role;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getLogin() {
         return login;

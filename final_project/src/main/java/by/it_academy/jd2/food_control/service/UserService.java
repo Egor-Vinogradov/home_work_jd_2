@@ -8,6 +8,7 @@ import by.it_academy.jd2.food_control.dto.search.SearchFilter;
 import by.it_academy.jd2.food_control.model.api.ERoleUser;
 import by.it_academy.jd2.food_control.model.api.EUserStatus;
 import by.it_academy.jd2.food_control.config.security.SecurityConfig;
+import by.it_academy.jd2.food_control.service.api.ILoginSearch;
 import by.it_academy.jd2.food_control.service.api.IUserService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.mail.SimpleMailMessage;
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class UserService implements IUserService {
+public class UserService implements IUserService, ILoginSearch<User> {
 
     private final IUserDao repository;
     private final SecurityConfig securityConfig;
@@ -40,6 +41,7 @@ public class UserService implements IUserService {
                 newLoginDto.setName(user.getName());
                 newLoginDto.setStatus(user.getStatus());
                 newLoginDto.setRole(user.getRole());
+                newLoginDto.setPassword("");
                 newLoginDto.setToken(this.securityConfig.getJWTToken(user.getLogin(), user.getRole()));
                 return newLoginDto;
             }
@@ -110,8 +112,8 @@ public class UserService implements IUserService {
 
     @Override
     public List<User> findAll(SearchFilter filter) {
-        int offset = (int) filter.getPage();
-        int limit = (int) filter.getSize();
+        int offset = Math.toIntExact(filter.getPage());
+        int limit = Math.toIntExact(filter.getSize());
 
         try {
             return this.repository.findByName(filter.getName(), PageRequest.of(offset, limit));
@@ -126,11 +128,34 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User updateItem(Long id, User item) {
-        item.setUpdateDate(LocalDateTime.now());
-        return null;
+    public User updateItem(Long id, User item, Long version) {
+        User user = findById(id);
+        user.setUpdateDate(LocalDateTime.now());
+
+        if (item.getName() != null) {
+            user.setName(item.getName());
+        }
+
+        if (item.getLogin() != null) {
+            user.setLogin(item.getLogin());
+        }
+
+        if (item.getPassword() != null) {
+            user.setPassword(this.securityConfig.passwordEncoder().encode(item.getPassword()));
+        }
+
+        if (item.getStatus() != null) {
+            user.setStatus(item.getStatus());
+        }
+
+        try {
+            return this.repository.save(user);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Ошибка работы с БД");
+        }
     }
 
+    @Override
     public User findByLogin(String login) {
         try {
             return this.repository.findByLogin(login).get(0);
@@ -166,16 +191,20 @@ public class UserService implements IUserService {
         }
 
         try {
-            user = new User();
-            user.setLogin("egor@soooperfekt.by");
-            user.setPassword(this.securityConfig.passwordEncoder().encode("111"));
-            user.setName("Егор");
-            user.setRole(ERoleUser.ROLE_USER);
-            user.setStatus(EUserStatus.ACTIVE);
-            user.setCreationDate(LocalDateTime.now());
-            addItem(user);
-        } catch (Exception ex) {
-            throw new IllegalArgumentException("Ошибка БД");
+            user = findById(2L);
+        } catch (IllegalArgumentException e) {
+            try {
+                user = new User();
+                user.setLogin("egor@soooperfekt.by");
+                user.setPassword(this.securityConfig.passwordEncoder().encode("111"));
+                user.setName("Егор");
+                user.setRole(ERoleUser.ROLE_USER);
+                user.setStatus(EUserStatus.ACTIVE);
+                user.setCreationDate(LocalDateTime.now());
+                addItem(user);
+            } catch (Exception ex) {
+                throw new IllegalArgumentException("Ошибка БД");
+            }
         }
     }
 }

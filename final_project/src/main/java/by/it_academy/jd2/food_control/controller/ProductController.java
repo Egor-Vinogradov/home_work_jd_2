@@ -22,8 +22,8 @@ public class ProductController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(value = "page", required = false) long page,
-                                                        @RequestParam(value = "size", required = false) long size,
+    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(value = "page", required = false) Long page,
+                                                        @RequestParam(value = "size", required = false) Long size,
                                                         @RequestParam(value = "name", required = false) String name) {
         SearchFilter filter = new SearchFilter();
         filter.setName(name);
@@ -40,12 +40,12 @@ public class ProductController {
 
     // не по тз. для удобства фронта
     @RequestMapping(value = "/all/", method = RequestMethod.GET)
-    public ResponseEntity<Long> getAllProductsPage () {
+    public ResponseEntity<Long> getAllProductsPage (@RequestParam(value = "name", required = false) String name) {
 
         SearchFilter filter = new SearchFilter();
-        filter.setName("");
-        filter.setSize(Integer.MAX_VALUE);
-        filter.setPage(0);
+        filter.setName(name);
+        filter.setSize((long) Integer.MAX_VALUE);
+        filter.setPage(0L);
 
         List<Product> products = this.productService.findAll(filter);
         if (products != null) {
@@ -80,10 +80,9 @@ public class ProductController {
     public ResponseEntity<?> updateProduct(@RequestBody Product product,
                                            @PathVariable("id") Long id,
                                            @PathVariable("dt_update") Long version) {
-        product.setVersion(version);
         Product productUpdate = null;
         try {
-            productUpdate = this.productService.updateItem(id, product);
+            productUpdate = this.productService.updateItem(id, product, version);
             return new ResponseEntity<>(productUpdate, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -93,7 +92,6 @@ public class ProductController {
     @RequestMapping(value = "/{id}/dt_update/{dt_update}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id,
                                            @PathVariable("dt_update") Long version) {
-//        boolean result = this.productService.deleteId(id, version);
         if (this.productService.deleteId(id, version)) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {

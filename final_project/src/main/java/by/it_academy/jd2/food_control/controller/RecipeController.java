@@ -69,10 +69,10 @@ public class RecipeController {
     public ResponseEntity<?> updateRecipe(@RequestBody Recipe recipe,
                                           @PathVariable("id") Long id,
                                           @PathVariable("dt_update") Long version) {
-        recipe.setVersion(version);
+//        recipe.setVersion(version);
         Recipe recipeUpdate = null;
         try {
-            recipeUpdate = this.recipeService.updateItem(id, recipe);
+            recipeUpdate = this.recipeService.updateItem(id, recipe, version);
             return new ResponseEntity<>(recipeUpdate, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

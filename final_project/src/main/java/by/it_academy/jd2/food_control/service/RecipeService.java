@@ -6,6 +6,7 @@ import by.it_academy.jd2.food_control.dto.search.SearchFilter;
 import by.it_academy.jd2.food_control.service.api.IService;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +71,7 @@ public class RecipeService implements IService<Recipe, Long> {
         } else {
             dish = new Dish();
             dish.setName(entity.getDish().getName());
-            dish.setVersion(System.currentTimeMillis());
+//            dish.setVersion(System.currentTimeMillis());
             Long idDish = this.dishService.addItem(dish);
             recipe.setDish(this.dishService.findById(idDish));
         }
@@ -118,7 +119,7 @@ public class RecipeService implements IService<Recipe, Long> {
     public boolean deleteId(Long id, Long version) {
         try {
             Recipe recipe = findById(id);
-            recipe.setVersion(version);
+//            recipe.setVersion(version);
             this.repository.delete(recipe);
             return true;
         } catch (Exception e) {
@@ -127,7 +128,7 @@ public class RecipeService implements IService<Recipe, Long> {
     }
 
     @Override
-    public Recipe updateItem(Long id, Recipe item) {
+    public Recipe updateItem(Long id, Recipe item, Long version) {
         Recipe recipe = null;
         try {
             recipe = this.repository.findById(id).get();
@@ -140,5 +141,15 @@ public class RecipeService implements IService<Recipe, Long> {
         } catch (Exception e) {
             throw new IllegalArgumentException("Не удалось обновить продукт");
         }
+    }
+
+    @PostConstruct
+    public void startInit() {
+        Recipe recipe = new Recipe();
+        recipe.setDish(null);
+        recipe.setComponents(null);
+        recipe.setUser(null);
+        recipe.setCreationDate(LocalDateTime.now());
+        this.repository.save(recipe);
     }
 }

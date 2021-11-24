@@ -42,7 +42,7 @@ public class ComponentService implements IService<Component, Long> {
     }
 
     @Override
-    public Component updateItem(Long id, Component item) {
+    public Component updateItem(Long id, Component item, Long version) {
         item.setUpdateDate(LocalDateTime.now());
         return null;
     }

@@ -8,7 +8,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,7 +16,6 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/**").permitAll()
 //                .antMatchers("/api/**").hasAuthority(ERoleUser.ROLE_USER.getTitle())
 //                .antMatchers("/**").hasAuthority(ERoleUser.ROLE_ADMIN.getTitle())
-                .antMatchers("/api/user/**", "/api/user").permitAll()
+                .antMatchers("/api/user/registration", "/api/user/auth").permitAll()
                 .anyRequest().authenticated();
     }
 

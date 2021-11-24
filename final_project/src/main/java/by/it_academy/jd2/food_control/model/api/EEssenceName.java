@@ -4,5 +4,9 @@ public enum EEssenceName {
     DISH,
     PRODUCT,
     RECIPE,
-    USER
+    USER,
+    PROFILE,
+    JOURNAL,
+    ACTIVE,
+    WEIGHTING
 }

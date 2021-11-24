@@ -21,7 +21,8 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     private final String SECRET = "mySecretKey";
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+                                    FilterChain chain) throws ServletException, IOException {
         try {
             if (checkJWTToken(request, response)) {
                 Claims claims = validateToken(request);
@@ -43,8 +44,17 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     private Claims validateToken(HttpServletRequest request) {
 //        String jwtToken = request.getHeader(HEADER).replace(PREFIX, "");
-        String jwtToken = request.getParameter("token").replace(PREFIX, "");
+//        String jwtToken = request.getParameter("token").replace(PREFIX, "");
+        String jwtToken = chekHeader(request).replace(PREFIX, "");
         return Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(jwtToken).getBody();
+    }
+
+    private String chekHeader(HttpServletRequest request) {
+        if (request.getHeader(HEADER) == null) {
+            return request.getParameter("token");
+        } else {
+            return request.getHeader(HEADER);
+        }
     }
 
     /**
@@ -65,7 +75,8 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     private boolean checkJWTToken(HttpServletRequest request, HttpServletResponse res) {
 //        String authenticationHeader = request.getHeader(HEADER);
-        String authenticationHeader = request.getParameter("token");
+//        String authenticationHeader = request.getParameter("token");
+        String authenticationHeader = chekHeader(request);
         if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX))
             return false;
         return true;

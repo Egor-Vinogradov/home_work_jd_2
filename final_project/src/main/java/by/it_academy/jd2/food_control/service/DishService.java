@@ -37,8 +37,8 @@ public class DishService implements IService<Dish, Long> {
 
     @Override
     public List<Dish> findAll(SearchFilter filter) {
-        int offset = (int) filter.getPage();
-        int limit = (int) filter.getSize();
+        int offset = Math.toIntExact(filter.getPage());
+        int limit = Math.toIntExact(filter.getSize());
 
         try {
             return this.repository.findByName(filter.getName(), PageRequest.of(offset, limit));
@@ -51,7 +51,7 @@ public class DishService implements IService<Dish, Long> {
     public boolean deleteId(Long id, Long version) {
         try {
             Dish dish = this.repository.findById(id).get();
-            dish.setVersion(version);
+//            dish.setVersion(version);
             this.repository.delete(dish);
             return true;
         } catch (Exception e) {
@@ -60,7 +60,7 @@ public class DishService implements IService<Dish, Long> {
     }
 
     @Override
-    public Dish updateItem(Long id, Dish item) {
+    public Dish updateItem(Long id, Dish item, Long version) {
         try {
             item.setId(id);
             item.setUpdateDate(LocalDateTime.now());

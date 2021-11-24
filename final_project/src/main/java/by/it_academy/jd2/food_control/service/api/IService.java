@@ -9,5 +9,5 @@ public interface IService<T, Long> {
     T findById(Long id);
     List<T> findAll(SearchFilter filter);
     boolean deleteId(Long id, Long version);
-    T updateItem(Long id, T item);
+    T updateItem(Long id, T item, Long version);
 }
