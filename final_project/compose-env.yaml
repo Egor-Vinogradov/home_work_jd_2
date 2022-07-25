@@ -1,0 +1,18 @@
+version: '3.1'
+services:
+  db-food-control:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: root
+      POSTGRES_DB: food_control
+
+  app-food-control:
+    container_name: app-food-control
+    build: ./
+    restart: always
+    ports:
+      - 8080:8080

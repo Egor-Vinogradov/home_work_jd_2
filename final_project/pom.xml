@@ -10,7 +10,7 @@
     </parent>
     <groupId>by.it_academy.jd2</groupId>
     <artifactId>food_control</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>food_control</name>
     <description>food_control</description>
     <properties>
